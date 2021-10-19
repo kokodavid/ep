@@ -1,0 +1,142 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      <div *ngIf="userinfo != null" style="text-align: center; font-size: medium; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">
+        Hello<small style="text-transform: uppercase; font-size: 14px;">  {{ userinfo.first_name }}
+          </small>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <div style="right: 20px;">
+        <ion-icon size="40" style="right: 20px;" (click)="reload()" name="refresh"></ion-icon>
+      </div>
+    </ion-buttons>
+    <ion-buttons slot="end"></ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-no-padding">
+  <ion-grid style="width: 100%; margin-bottom: -20px;">
+    <ion-row responsive-sm *ngIf="students.length == 1" class="ion-no-padding">
+      <ion-col *ngFor="let student of students;  let i = index" col-8>
+        <div class="center-image">
+          <ion-icon (click)="studentData(student)" class="img1" style="font-size:7em"
+            *ngIf="student.student_image === null" name="happy-outline"></ion-icon>
+          <img (click)="studentData(student)" class="img1"
+            *ngIf="student.student_image !== null && assets !== undefined" src={{assets+student.student_image}} />
+          <!-- <ion-skeleton-text *ngIf="assets === undefined" class="img1"  animated></ion-skeleton-text> -->
+          <!-- <div class="center-image"><div *ngIf="student.student_image === null && assets === undefined"  class="img1" >
+                  <ion-spinner    name="lines-small" style="  left: 50%;top: 50%;bottom: 50%;right: 50%;"></ion-spinner>
+              </div></div> -->
+        </div>
+        <div class="center-div" (click)="studentData(student)">
+          <div class="c"
+            style="align-content: center; text-align:center;font-weight: bold; text-transform: uppercase; font-size: 11px;"
+            [innerHTML]="student.student_name"></div>
+          <div class="c"
+            style="align-content: center; text-align:center;text-transform: uppercase;font-size: 11px; color:rgb(70, 66, 66);"
+            [innerHTML]="student.class_name"></div>
+          <div class="c"
+            style="align-content: center; text-align:center;text-transform: uppercase;font-size: 11px; color:rgb(70, 66, 66);"
+            [innerHTML]="student.school_name"></div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row responsive-sm *ngIf="students.length >= 2">
+      <ion-col *ngFor="let student of students;  let i = index" col-4>
+        <ion-icon (click)="studentData(student)" class="img2" style="font-size:5.5em"
+          *ngIf="student.student_image === null" name="happy-outline"></ion-icon>
+        <!-- <ion-skeleton-text  animated></ion-skeleton-text> -->
+        <div *ngIf="assets === undefined" class="img1">
+          <ion-spinner name="lines-small" style="
+          left: 50%;
+          top: 50%;
+          bottom: 50%;
+          right: 50%;
+        " color="tertiary"></ion-spinner>
+        </div>
+        <img class="img1" *ngIf="student.student_image !== null && assets !== undefined" (click)="studentData(student)"
+          src={{assets+student.student_image}} />
+        <div
+          style="align-content: center; text-align:center;font-weight: bold; text-transform: uppercase; font-size: 11px;"
+          (click)="studentData(student)" [innerHTML]="student.student_name"></div>
+        <div
+          style="align-content: center; text-align:center;text-transform: uppercase;font-size: 11px; color:rgb(70, 66, 66);"
+          (click)="studentData(student)" [innerHTML]="student.class_name"></div>
+        <div
+          style="align-content: center; text-align:center;text-transform: uppercase;font-size: 11px;color:rgb(70, 66, 66);"
+          (click)="studentData(student)" [innerHTML]="student.school_name"></div>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+  <div class="ion-padding" style="margin-bottom: 5px;">
+    <ion-list class="head" style="margin-bottom:0px;">News</ion-list>
+    <ion-list class="tittle"> {{this.school}}</ion-list>
+  </div>
+  <!-- <div *ngIf="load" style="align-items: center;"><ion-spinner name="dots"></ion-spinner></div> -->
+  <ion-item *ngIf="news.length === 0 && fake === 0">
+    <ion-avatar slot="start">
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-avatar>
+    No news records found.
+  </ion-item>
+  <ion-list *ngIf="check === 1 && fake === 1">
+    <br>
+    <ion-spinner name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%;" color="primary">
+    </ion-spinner>
+  </ion-list>
+  <ion-list *ngIf="news.length === 0 && fake === 1">
+    <br>
+    <ion-spinner name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%;" color="primary">
+    </ion-spinner>
+    <!-- <ion-item *ngFor="let i of [1,2,3,4,5,7,8];  let i = index"  >
+      <ion-avatar slot="start" >
+         <ion-skeleton-text animated></ion-skeleton-text>
+       </ion-avatar>
+       <ion-label>
+         <h3><ion-skeleton-text animated style="width: 100%"></ion-skeleton-text></h3>
+         <p><ion-skeleton-text animated style="width: 90%"></ion-skeleton-text></p>
+         <p><ion-skeleton-text animated style="width: 80%"></ion-skeleton-text></p>
+       </ion-label>
+</ion-item> -->
+  </ion-list>
+  <div *ngIf="news.length > 0">
+    <div *ngFor="let item of news; let i = index">
+      <div *ngIf="this.formatdate(item.creation_date).substr(-4) > '2019'">
+        <div scrollY="true">
+          <ion-list class="ion-no-padding">
+            <div *ngIf="item.seen === true; else not_seen">
+              <ion-item (click)="newsInfo(item,this.school)">
+                <ion-icon style="top:0px; color: #397C49;position: relative;" size="32" name="notifications"
+                  slot="start">
+                </ion-icon>
+                <ion-list style="min-width: 100%; color: #397C49;">
+                  <div [innerHTML]="item.subject"></div>
+                  <div class="news"><small>{{this.formatdate(item.creation_date)}} By {{item.posted_by}}</small> </div>
+                </ion-list>
+              </ion-item> 
+            </div> 
+            <ng-template #not_seen>
+              <ion-item (click)="newsInfo(item,this.school)">
+                <ion-icon style="top:0px; color:black;position: relative;" size="32" name="notifications" slot="start">
+                </ion-icon>
+                <ion-list style="min-width: 100%; color: black;">
+                  <div [innerHTML]="item.subject"></div>
+                  <div class="news"><small>{{this.formatdate(item.creation_date)}} By {{item.posted_by}}</small> </div>
+                </ion-list>
+              </ion-item> 
+            </ng-template>
+          </ion-list>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ion-fab *ngIf="feedback === 'true'" vertical="bottom" (click)="addfeed()" horizontal="end" slot="fixed">
+    <ion-fab-button color="tertiary">
+      <ion-icon name="chatbox-ellipses"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

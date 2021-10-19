@@ -1,0 +1,125 @@
+<ion-header style="height: 100%; background-color:#397C49;">
+  <ion-toolbar color="primary" style="color:white;">
+    <ion-buttons slot="start" style="font-size: 14px;">
+      <ion-icon text="" icon="chevron-back" style="font-size:1.7em ; color: white;" (click)="dismissRegister()">
+      </ion-icon>CREATE ACCOUNT
+    </ion-buttons>
+    <!-- <ion-title style="text-align: justify;font-size: 14px;"> &nbsp; CREATE ACCOUNT</ion-title> -->
+    <!-- <ion-buttons slot="end">
+    </ion-buttons>-->
+  </ion-toolbar>
+  <div style="height: 40%;">
+  </div>
+  <!-- <div class="main"> -->
+  <ion-card class="ion-no-padding">
+    <ion-card-content>
+      <div *ngIf="code == 0" style="margin: 10px;">
+        <ion-row class="row">
+          <div class="fire-logo">
+          </div>
+        </ion-row>
+        <form #form="ngForm" (ngSubmit)="check(form)" method="post">
+          <!-- <ion-row>
+                    <ion-col>     -->
+          <ion-item lines="none">
+            <h2 style="color:black;font-size: 18px;"> Enter your phone number</h2>
+            <br>
+            <br>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="call" slot="start"></ion-icon>
+            <ion-input clearInput type="tel" ngModel name="phone" maxlength="12" style="color:black; font-size: 20px;"
+              (ionInput)="runTimeChange($event)" placeholder="0700 123 123" pattern="[0-9]{4} [0-9]{3} [0-9]{3}"
+              value={{value}} padding-horizontal clear-input="true">
+            </ion-input>
+          </ion-item>
+          <!-- </ion-col>
+                   </ion-row> -->
+          <ion-row>
+            <ion-col> </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-3></ion-col>
+            <ion-col col-6>
+              <ion-button type="submit" style="background-color: #397C49;" class="transition"><strong
+                  class="white">Continue</strong></ion-button>
+            </ion-col>
+            <ion-col col-3></ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-3></ion-col>
+            <ion-col col-6>
+              <ion-button (click)=enterCode() color="warning" style="text-transform: none;">Already have code?
+              </ion-button>
+            </ion-col>
+            <ion-col col-3></ion-col>
+          </ion-row>
+        </form>
+      </div>
+      <div *ngIf="code == 1" style="margin: 10px;">
+        <form #form="ngForm" (ngSubmit)="verify(form)" method="post">
+          <ion-item lines="none">
+            <h2 style="color:black;font-size: 18px;">Enter the code to proceed.</h2>
+            <br>
+            <br>
+          </ion-item>
+          <ion-item>
+            <ion-icon ios="ios-alert" md="md-alert" style="margin-right: 15px; color: black;"></ion-icon>
+            <ion-input clearInput type="text" ngModel name="code" maxlength="6" class="code1"
+              style="color:black; font-size: 20px;" placeholder="Enter Code" padding-horizontal clear-input="true">
+            </ion-input>
+          </ion-item>
+          <ion-row>
+            <ion-col col-3></ion-col>
+            <ion-col col-6>
+              <ion-button type="submit" color="warning" class="transition"><strong class="white">Verify</strong>
+              </ion-button>
+            </ion-col>
+            <ion-col col-3></ion-col>
+          </ion-row>
+        </form>
+      </div>
+      <div *ngIf="code == 2">
+        <form #form="ngForm" (ngSubmit)="register(form)" method="post">
+          <ion-item lines="none">
+            <h2 style="color:black;font-size: 18px;">Enter your Password.</h2>
+            <br>
+            <br>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="lock-closed" slot="start"></ion-icon>
+            <ion-input ngModel type={{type}} name="pass" placeholder="Enter Password" ></ion-input>
+
+            <ion-icon ion-button *ngIf="showPasswordText == 1" name="eye" (click)="managePassword()" slot="end">
+            </ion-icon>
+            <ion-icon ion-button *ngIf="showPasswordText == 0" name="eye-off" (click)="managePassword()" slot="end">
+            </ion-icon>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon name="lock-closed" slot="start"></ion-icon>
+            <ion-input ngModel type={{type}} name="repass" placeholder="Confirm Password" ></ion-input>
+            <ion-icon ion-button *ngIf="showPasswordText == 1" name="eye" (click)="managePassword()" slot="end">
+            </ion-icon>
+            <ion-icon ion-button *ngIf="showPasswordText == 0" name="eye-off" (click)="managePassword()" slot="end">
+            </ion-icon>
+          </ion-item>
+
+          <ion-row>
+            <ion-col col-3></ion-col>
+            <ion-col col-6>
+              <ion-button type="submit" color="warning" class="transition"><strong class="white">Register</strong>
+              </ion-button>
+            </ion-col>
+            <ion-col col-3></ion-col>
+          </ion-row>
+        </form>
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+  <!-- </div> -->
+</ion-header>
+<!-- <ion-content style="background-color:#397C49 ;height:100%" class="ion-no-padding">
+   
+  </ion-content> -->

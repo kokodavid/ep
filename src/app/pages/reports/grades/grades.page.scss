@@ -1,0 +1,115 @@
+
+ion-content{
+    ion-spinner > svg {
+        width: 80px !important;
+        height: 80px !important;}
+    // font-size: 14px;
+    // font-weight: 500;
+
+    // .fixed_header tbody{
+    //     display:block;
+    //     overflow:auto;
+    //     height:200px;
+    //     width:100%;
+    //   }
+      
+    //   .fixed_header thead tr{
+    //     display:block;
+    //   }
+
+
+      
+    // .hide{
+    //     visibility: hidden;
+    //     display:none;
+    //   }
+    .table_wrapper{
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    // table {
+    //     border-collapse: collapse;
+    // }
+    // #one td {
+    //     border: 1px solid #ff0000; 
+    // }
+
+    body {background-color: white;}
+    table {border-collapse:collapse !important; 
+            width: 100%;
+            border: 1px solid black}
+    td { width: 42px !important;
+                height: 100%; 
+                text-align: center;
+                
+    }
+   
+    //table tr:first-child td {border: .5px solid rgb(112, 109, 109); }
+    table tr:last-child td {border: 1px solid rgb(112, 109, 109); }
+    ion-col{
+        font-size: 12px;
+        font-weight: 500;
+    }
+    // td{
+    //     width: auto;
+    // }
+    //   .table-scroll {
+    //     //top:10px;
+    //     position:relative;
+    //     overflow-x: scroll; 
+    //     overflow-y:scroll;
+    //     max-width:600px auto;
+    //     margin:0px auto;
+    //     //overflow:hidden;
+    //     height:500px;
+    //     overflow:auto;
+    //     border:.5px solid rgb(165, 158, 158);
+    // }
+    // .table-wrap {
+    //     width:100%;
+    //     //overflow:auto;
+    // }
+    // .table-scroll table {
+    //     width:100%;
+    //     margin:0px;
+    //    // border-collapse:separate;
+    //     border-spacing:0;
+    // }
+    // .table-scroll th, .table-scroll td {
+    //     padding:5px 10px;
+    //     border:0.5px solid rgb(80, 77, 77);
+    //     background:#fff;
+    //     white-space:nowrap;
+    //     vertical-align:top;
+    // }
+    // .table-scroll thead, .table-scroll tfoot {
+    //     background:#f9f9f9;
+    // }
+    // .clone {
+    //     position:absolute;
+    //     top:0;
+    //     left:0;
+    //     pointer-events:none;
+    // }
+    // .clone th, .clone td {
+    //     visibility:hidden
+    // }
+    // .clone td, .clone th {
+    //     border-color:transparent
+    // }
+    // .clone tbody th {
+    //     visibility:visible;
+    //     color:red;
+    // }
+    // .clone .fixed-side {
+    //     border:.5px solid #000;
+    //     background:#eee;
+    //     text-align: left;
+    //     visibility:visible;
+    // }
+    // .clone thead, .clone tfoot{background:transparent;
+    // }
+}
+

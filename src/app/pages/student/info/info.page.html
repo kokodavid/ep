@@ -1,0 +1,275 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" style="font-size:14px;">
+      <ion-back-button text="" icon="chevron-back"></ion-back-button>STUDENT INFORMATION
+    </ion-buttons>
+    <!-- <ion-title style="font-size:14px;">STUDENT INFORMATION</ion-title> -->
+  </ion-toolbar>
+  <ion-item>
+    <ion-avatar slot="start" *ngIf="assets !==1">
+      <img src={{assets}}>
+    </ion-avatar>
+    <ion-avatar slot="start" *ngIf="assets === 1">
+      <ion-icon size="32" style="font-size: 2em" name="happy-outline"></ion-icon>
+    </ion-avatar>
+    <ion-label style="text-transform: uppercase;">{{student.first_name}} {{student.middle_name}} {{student.last_name}}
+    </ion-label>
+  </ion-item>
+  <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segment" value="details" mode="md">
+    <ion-segment-button value="details">
+      <ion-label>Details</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="family">
+      <ion-label>Family</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="medical">
+      <ion-label>Medical</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="enrolled">
+      <ion-label>Enrolled</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+
+<ion-content class='ion-no-padding'>
+  <div [ngSwitch]="segment">
+    <div *ngSwitchCase="'details'">
+      <ion-list *ngIf="info === undefined && fake === 1">
+        <ion-spinner name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%;"></ion-spinner>
+      </ion-list>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              Admission Date
+            </ion-col>
+            <ion-col class="info">
+              {{info.admission_date}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              Admission Number
+            </ion-col>
+            <ion-col class="info">
+              {{info.admission_number}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              Student Category
+            </ion-col>
+            <ion-col class="info">
+              {{info.student_category}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              First Name
+            </ion-col>
+            <ion-col class="info">
+              {{info.first_name}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              Middle Name
+            </ion-col>
+            <ion-col class="info">
+              {{info.middle_name}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              Last Name
+            </ion-col>
+            <ion-col class="info">
+              {{info.last_name}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              Gender
+            </ion-col>
+            <ion-col class="info">
+              {{info.gender}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              Date of Birth
+            </ion-col>
+            <ion-col class="info">
+              {{info.dob}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              Class Entry
+            </ion-col>
+            <ion-col class="info">
+              {{info.class_name}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              Payment Plan
+            </ion-col>
+            <ion-col class="info">
+              {{info.payment_plan_name}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </div>
+    <div *ngSwitchCase="'family'">
+      <ion-list *ngIf="quardians.length === 0 && fake === 1">
+        <ion-spinner name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%;"></ion-spinner>
+      </ion-list>
+      <ion-card>
+        <ion-card-header>
+          <div class="topbar">
+            <!-- <ion-item  lines="none"> -->
+
+            <h4>
+              <ion-icon slot="start" name="people" item-start style="color: black"></ion-icon><span>
+                Parent/Guardians</span>
+            </h4>
+            <!-- </ion-item> -->
+          </div>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item *ngIf="quardians.length == 0 ">
+            No Records.
+          </ion-item>
+          <ion-list line='none' *ngFor="let r of quardians;  let i = index">
+            {{r.first_name}} {{r.last_name}} ({{r.relationship}})<br>
+            {{r.telephone}} <br>
+            {{r.email}}<br>
+          </ion-list>
+        </ion-card-content>
+        <ion-card-header>
+          <h4>
+            <ion-icon slot="start" name="alert-circle" slot="start" item-start style="color: black">
+            </ion-icon><span> Emergency Contact</span>
+          </h4>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>{{info.emergency_name}} ({{info.emergency_relationship}})<br>{{info.emergency_telephone}}</ion-list>
+        </ion-card-content>
+        <ion-card-header>
+          <h4>
+            <ion-icon name="car-sport" slot="start"></ion-icon> Drop Off/Pick Up Individual
+          </h4>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>{{info.pick_up_drop_off_individual}}</ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    <ion-card *ngSwitchCase="'medical'">
+      <ion-card-header>
+        <h4>
+          <ion-icon name="medkit" slot="start"></ion-icon> Medical
+        </h4>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list *ngIf="medical.length == 0 && fake === 0 ">
+          No medical records.
+        </ion-list>
+        <div *ngIf="medical.length > 0 ">
+          <ion-list line='none' *ngFor="let r of medical;  let i = index">
+            <ion-grid>
+              <ion-row>
+                <ion-col col-4>{{r.illness_condition}} - </ion-col>
+                <ion-col col-8>{{r.comments}}</ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-list>
+        </div>
+      </ion-card-content>
+      <ion-card-header> Has your child had any other serious illnesses or allergies?</ion-card-header>
+      <ion-card-content>
+        <ion-list *ngIf="info.other_medical_conditions== false">No-</ion-list>
+        <ion-list *ngIf="info.other_medical_conditions== true">{{info.other_medical_conditions }}
+          {{info.other_medical_conditions_description}}</ion-list>
+      </ion-card-content>
+      <ion-card-header> Has your child been hospitalized or undergone any operations?</ion-card-header>
+      <ion-card-content>
+        <ion-list *ngIf="info.hospitalized == true">{{info.hospitalized }} {{info.hospitalized_description}}</ion-list>
+        <ion-list *ngIf="info.hospitalized == false">No-</ion-list>
+      </ion-card-content>
+      <ion-card-header>Is your child being treated for a medical illness or on any medications currently?
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list *ngIf="info.current_medical_treatment == false">No-</ion-list>
+        <ion-list *ngIf="info.current_medical_treatment == true">{{info.current_medical_treatment }}
+          {{info.current_medical_treatment_description}}</ion-list>
+      </ion-card-content>
+      <ion-card-header>Comments</ion-card-header>
+      <ion-card-content>
+        <ion-list *ngIf="info.current_medical_treatment == true">{{info.current_medical_treatment }} </ion-list>
+        <ion-list *ngIf="info.current_medical_treatment == false">none </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngSwitchCase="'enrolled'">
+      <ion-item *ngIf="feeitems.length == 0 " class="ion-no-padding">
+        No fee items.
+      </ion-item>
+      <ion-card-header>
+        <h4>
+          <ion-icon slot="start" name="checkmark-circle-outline" slot="start">
+          </ion-icon> Enrolled In
+        </h4>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item *ngFor="let r of feeitems;  let i = index" class="ion-no-padding">
+          {{r.fee_item}}
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <ion-fab *ngIf="feedback === 'true'" vertical="bottom" (click)="addfeed()" horizontal="end" slot="fixed">
+    <ion-fab-button color="tertiary">
+      <ion-icon name="chatbox-ellipses"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

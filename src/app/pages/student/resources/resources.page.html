@@ -1,0 +1,97 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start" style="font-size: 14px;">
+            <ion-back-button text="" icon="chevron-back"></ion-back-button>RESOURCES
+        </ion-buttons>
+        <!-- <ion-title style="font-size:14px;">GALLERY</ion-title> -->
+    </ion-toolbar>
+    <ion-item lines="none">
+        <ion-avatar slot="start" *ngIf="assets !==1">
+            <img src={{assets}}>
+        </ion-avatar>
+        <ion-avatar slot="start" *ngIf="assets === 1">
+            <ion-icon size="32" style="font-size: 2em" name="happy-outline"></ion-icon>
+        </ion-avatar>
+        <ion-label style="text-transform: uppercase;">{{student.first_name}} {{student.middle_name}}
+            {{student.last_name}}
+        </ion-label>
+    </ion-item>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+
+    <ion-list *ngIf="resources.length === 0 && fake === 1">
+        <br>
+        <ion-spinner name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%;"
+            color="primary">
+        </ion-spinner>
+    </ion-list>
+
+    <ion-card *ngIf="resources.length === 0 && fake === 0">
+        <ion-item>
+            No Resources
+        </ion-item>
+    </ion-card>
+    <div class="info" *ngIf="resources.length > 0">
+        <div *ngFor="let r of resources; let i = index">
+            <ion-item>
+                <div *ngIf="r.file_name.includes('mp4'); else doc">
+                    <ion-icon name="videocam" style="position: relative; color: black;"></ion-icon>
+                </div>
+                <ng-template #doc>
+                    <ion-icon name="document-text" style="position: relative; color: black;"></ion-icon>
+                </ng-template>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col class="info" col-6
+                            style="color:#009e0f; font-weight:bold; text-transform: uppercase; font-size: 12px;">
+                            {{r.resource_name}}
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col class="info" style="font-size: 14px;" col-6>
+                            {{r.additional_text}}
+                        </ion-col>
+                    </ion-row>
+                    <div *ngIf="r.resource_type === 'VIDEO'">
+                        <ion-row>
+                            <div *ngIf="platform === 'iOS'; else android">
+                                <iframe [src]='r.vimeo_path_full' width="100%" height="100%" frameborder="0"
+                                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                                    allowfullscreen></iframe>
+                                
+                            </div>
+                            <ng-template #android>
+                                <a href="https://player.vimeo.com/video/{{r.vimeo_path}}"
+                                    style="font-size:14px; padding: 08px; color: blue; text-decoration:none; border-bottom: blue 1px !important">{{r.file_name}}</a>
+                            </ng-template>
+                        </ion-row>
+                    </div>
+                    <div *ngIf="r.resource_type === 'DOCUMENT'">
+                        <ion-row style="font-size:14px; padding: 08px; color: blue; border-bottom: blue 1px !important"
+                            (click)="download(r.file_name,link + r.file_name)">
+                            {{r.file_name}}
+                        </ion-row>
+                    </div>
+                    <ion-row>
+                        <ion-col col-12>
+                            <!-- <p (click)=play(r.vimeo_path) style="color: blue;">https://player.vimeo.com/video/{{r.vimeo_path}}</p> -->
+
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row>
+                        <ion-col col-12>
+                            <small>{{this.formatDate(r.creation_date)}}, By {{r.teacher_name}}</small>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-item>
+        </div>
+    </div>
+    <ion-fab *ngIf="feedback === 'true'" vertical="bottom" (click)="addfeed()" horizontal="end" slot="fixed">
+        <ion-fab-button color="tertiary">
+            <ion-icon name="chatbox-ellipses"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+</ion-content>

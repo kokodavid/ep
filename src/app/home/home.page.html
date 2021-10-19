@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" style="font-size: 14px;">
+      <ion-back-button text="" icon="chevron-back">
+      </ion-back-button>
+      STUDENT DETAILS
+    </ion-buttons>
+    <!-- <ion-title style="font-size:14px;">
+      STUDENT DETAILS
+    </ion-title> -->
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="outer">
+    <div class="center-div">
+      <ion-icon class="img" *ngIf="data.student_image === null" name="happy-outline"></ion-icon>
+      <img class="img" src={{assets+data.student_image}} alt={{data.first_name}} *ngIf="data.student_image !== null" />
+    </div>
+    <div style="text-align: center;font-size:12px;margin-bottom: 10px;text-transform: uppercase;font-weight:500;">
+      <span>{{data.first_name}} {{data.middle_name}} {{data.last_name}}</span></div>
+    <div style="text-align: center;font-size:12px;margin-bottom: 10px;"><br></div>
+  </div>
+
+  <ion-list>
+    <ion-item (click)="posts(data)">
+      <ion-icon slot="start" name="megaphone" item-left></ion-icon>
+      <ion-label>Homework & Posts</ion-label>
+      <ion-icon slot="end" color="medium" name="arrow-forward"></ion-icon>
+    </ion-item>
+    <ion-item (click)="details(data)">
+      <ion-icon slot="start" name="person-circle" item-left></ion-icon>
+      <ion-label>Student Details</ion-label>
+      <ion-icon slot="end" color="medium" name="arrow-forward"></ion-icon>
+    </ion-item>
+    <ion-item (click)="fees(data)">
+      <ion-icon slot="start" name="pricetag" item-left></ion-icon>
+      <ion-label>Fees</ion-label>
+      <ion-icon slot="end" color="medium" name="arrow-forward"></ion-icon>
+    </ion-item>
+    <ion-item (click)="grades(data)">
+      <ion-icon slot="start" name="school" item-left></ion-icon>
+      <ion-label>Grading</ion-label>
+      <ion-icon slot="end" color="medium" name="arrow-forward"></ion-icon>
+    </ion-item>
+    <ion-item (click)="cbcgrades(data)">
+      <ion-icon slot="start" name="school" item-left></ion-icon>
+      <ion-label>CBC Grading</ion-label>
+      <ion-icon slot="end" color="medium" name="arrow-forward"></ion-icon>
+    </ion-item>
+    <ion-item (click)="analytics(data)">
+      <ion-icon slot="start" name="bar-chart" item-left></ion-icon>
+      <ion-label>Analytics</ion-label>
+      <ion-icon slot="end" color="medium" name="arrow-forward"></ion-icon>
+    </ion-item>
+    <ion-item (click)="attendance(data)">
+      <ion-icon slot="start"  name="checkmark-done-circle" item-left></ion-icon>
+      <ion-label>Attendance</ion-label>
+      <ion-icon slot="end" color="medium" name="arrow-forward"></ion-icon>
+    </ion-item>
+    <ion-item (click)="albums(data)">
+      <ion-icon slot="start" name="albums" item-left></ion-icon>
+      <ion-label>Gallery</ion-label>
+      <ion-icon slot="end" color="medium" name="arrow-forward"></ion-icon>
+    </ion-item>
+    <ion-item (click)="resources(data)">
+      <ion-icon slot="start" name="videocam" item-left></ion-icon>
+      <ion-label>Resources</ion-label>
+      <ion-icon slot="end" color="medium" name="arrow-forward"></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>

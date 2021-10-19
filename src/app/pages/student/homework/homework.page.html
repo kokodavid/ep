@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" style="font-size: 14px;">
+      <ion-back-button text="" icon="chevron-back">
+      </ion-back-button>
+      <div style="text-transform: uppercase;"> {{homeworkInfo.title}} {{homeworkInfo.subject_name}}</div>
+    </ion-buttons>
+    <!-- <ion-title style="font-size:14px;">POSTS & HOMEWORK</ion-title> -->
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-no-padding">
+  <ion-card>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12><strong>By :</strong> {{homeworkInfo.posted_by}}</ion-col>
+
+        </ion-row>
+        <ion-row>
+          <ion-col col-4>
+            <strong>Posted:</strong> {{this.formatDate(homeworkInfo.assigned_date)}}
+          </ion-col>
+          <ion-col col-8><strong>Due in:</strong> {{this.formatDate(homeworkInfo.due_date)}}</ion-col>
+
+        </ion-row>
+        <ion-row>
+          <ion-col col-12>
+            <div class="info" [innerHTML]="homeworkInfo.body" style="font-size: 14px;"></div>
+            
+          </ion-col>
+        </ion-row>
+        <div *ngIf="homeworkInfo.attachment">
+          <div *ngIf="attachments.length > 0" class="ion-no-padding">
+            <ion-list *ngFor="let items of attachments; let i = index;">
+              <ion-item style="font-size:14px; color: blue; border-bottom: blue 1px !important" no-padding (click)="download(items,assets+items)">
+                <span> {{i+1}}. <ion-icon name="document-attach" md="md-attach"></ion-icon>
+                <a  style="color: blue;font-size:13px; "> {{items}}  </a></span>
+              </ion-item>
+            </ion-list>
+          </div>
+          <!-- <ion-row>
+            <ion-col col-21 (click)="download(homeworkInfo.attachment, assets+homeworkInfo.attachment)">
+              <strong>Attachment: </strong>
+              <a style="color: blue;"> {{homeworkInfo.attachment}} </a>
+            </ion-col>
+          </ion-row> -->
+        </div>
+
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-fab *ngIf="feed === 'true'" vertical="bottom" (click)="addfeed()" horizontal="end" slot="fixed">
+    <ion-fab-button color="tertiary">
+      <ion-icon name="chatbox-ellipses"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

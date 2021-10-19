@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" style="font-size: 14px;">
+      <ion-back-button text="" icon="chevron-back"></ion-back-button>
+      <ion-icon slot="start" size="30" style="font-size: 1.6em ;margin-top:5px !important;" name="notifications">
+      </ion-icon>FEEDBACK
+    </ion-buttons>
+    <!-- <ion-title style="text-align:inherit" >
+      <ion-item lines='none' color="primary">
+            <ion-icon  slot="start"  size="30" style="font-size: 1.6em ;margin-top:5px !important;"  name="md-notifications"></ion-icon>
+
+      <ion-label style="text-transform: uppercase;margin-top:5px !important;">Feedback</ion-label>
+    </ion-item> 
+    </ion-title> -->
+  </ion-toolbar>
+</ion-header>
+<!-- <ion-item>
+    <ion-avatar slot="start" >
+        <ion-icon   size="32" style="font-size: 1.7em"  name="md-notifications"></ion-icon>
+      </ion-avatar>
+  <ion-label style="text-transform: uppercase;">My Feedback</ion-label>
+</ion-item> -->
+<ion-content class="ion-no-padding">
+  <!-- <div class="clear"><br></div> -->
+  <ion-list *ngIf="feedbacks.length === 0 && fake === 1">
+    <!-- <ion-item *ngFor="let i of [1,2,3,4,5];  let i = index"  >
+         
+             <ion-label>
+               <h3><ion-skeleton-text animated style="width: 100%"></ion-skeleton-text></h3>
+               <p><ion-skeleton-text animated style="width: 90%"></ion-skeleton-text></p>
+               <p><ion-skeleton-text animated style="width: 80%"></ion-skeleton-text></p>
+             </ion-label>
+      </ion-item> -->
+    <br>
+    <ion-spinner name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%;" color="primary">
+    </ion-spinner>
+  </ion-list>
+  <ion-card *ngIf="feedbacks.length === 0 && fake === 0">
+    <ion-card-content>
+      No feedback...
+    </ion-card-content>
+  </ion-card>
+  <div *ngIf="feedbacks.length > 0">
+    <ion-card *ngFor="let item of feedbacks; let i = index;">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12 style="font-weight: bold; font-size:12px; color: #009e0f; text-transform:uppercase">
+            <ion-icon name="notifications"></ion-icon> <strong>{{item.subject}}</strong>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-12 style="font-size:13px;color: black">
+            {{item.message}}
+          </ion-col>
+        </ion-row>
+        <ion-row (click)="download(item.student_attachment, assets + item.student_attachment)">
+          <ion-col col-12 style="font-size:13px;color: blue">
+            {{item.student_attachment}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6 style="font-weight:500;">
+            <small>Created On: {{this.formatDate(item.sent_date)}}</small>
+          </ion-col>
+          <ion-col col-6 style="font-weight:500;">
+            <small>By: {{item.parent_full_name}}</small>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+  </div>
+  <ion-fab *ngIf="feedback === 'true'" vertical="bottom" (click)="addfeed()" horizontal="end" slot="fixed">
+    <ion-fab-button color="tertiary">
+      <ion-icon name="chatbox-ellipses"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

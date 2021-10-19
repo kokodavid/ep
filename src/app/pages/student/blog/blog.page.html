@@ -1,0 +1,190 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" style="font-size: 14px;">
+      <ion-back-button text="" icon="chevron-back">
+
+      </ion-back-button>HOMEWORK & POSTS
+    </ion-buttons>
+    <!-- <ion-title style="font-size:14px;">POSTS & HOMEWORK</ion-title> -->
+  </ion-toolbar>
+  <ion-item>
+    <ion-avatar slot="start" *ngIf="assets !==1">
+      <img src={{assets}}>
+    </ion-avatar>
+    <ion-avatar slot="start" *ngIf="assets === 1">
+      <ion-icon size="32" style="font-size: 2em" name="happy-outline"></ion-icon>
+    </ion-avatar>
+    <ion-label style="text-transform: uppercase;">{{student.first_name}} {{student.middle_name}} {{student.last_name}}
+    </ion-label>
+  </ion-item>
+  <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segment" value="homeworks" mode="md">
+    <ion-segment-button value="homeworks">
+      <ion-label>Homework</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="posts">
+      <ion-label>Posts</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+<ion-content scrollY="true" class="ion-no-padding">
+  <div [ngSwitch]="segment">
+    <div *ngSwitchCase="'posts'">
+      <ion-card *ngIf="posts.length == 0 && fake === 0">
+        <ion-card-content>
+          No posts for this student.
+        </ion-card-content>
+      </ion-card>
+      <ion-list *ngIf="posts.length === 0 && fake === 1">
+        <br>
+        <ion-spinner name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%;"
+          color="primary"></ion-spinner>
+        <!-- <ion-item *ngFor="let i of [1,2,3,4,5,6,7,8,9,10];  let i = index"  >
+                      <ion-avatar slot="start" >
+                         <ion-skeleton-text animated></ion-skeleton-text>
+                       </ion-avatar>
+                       <ion-label>
+                         <h3><ion-skeleton-text animated style="width: 100%"></ion-skeleton-text></h3>
+                         <p><ion-skeleton-text animated style="width: 90%"></ion-skeleton-text></p>
+                         <p><ion-skeleton-text animated style="width: 80%"></ion-skeleton-text></p>
+                       </ion-label>
+                </ion-item> -->
+      </ion-list>
+      <ion-list *ngIf="posts.length > 0">
+        <ion-card *ngFor="let p of posts;  let i = index">
+          <ion-card-header>
+            <!-- {{p.title}}  -->
+            <p>Posted On: {{p.creation_date}} by {{p.posted_by}}</p>
+            <p>Posted On: {{p.creation_date}} by {{p.posted_by}}</p>
+          </ion-card-header>
+          <ion-card-content>
+            <div [innerHTML]="p.body"></div>
+          </ion-card-content>
+        </ion-card>
+      </ion-list>
+    </div>
+    <div *ngSwitchCase="'homeworks'">
+      <ion-list>
+        <ion-list-header>
+          <ion-button size="small" style="color: black;" (click)=filterHomework()>FILTER <ion-icon slot="end"
+              name="chevron-down"></ion-icon>
+          </ion-button>
+        </ion-list-header>
+
+        <div id="filter" hidden style="padding-left: 8px; padding-right: 8px;">
+          <ion-item>
+            <ion-label>Subject</ion-label>
+            <ion-select [value]="all" placeholder="All" cancelText="Cancel" okText="Ok" [(ngModel)]="subjects"
+              (ionChange)="onChange($event)">
+              <ion-select-option value="all">All</ion-select-option>
+              <div *ngFor="let s of subjectName; let i = index">
+                <ion-select-option style="font-size:small;" value="{{s.subject_name}}">{{s.subject_name}}
+                </ion-select-option>
+              </div>
+
+            </ion-select>
+          </ion-item>
+
+          <div>
+            <ion-row>
+              <ion-col col-2>
+                <ion-item>
+                  <ion-label>Period</ion-label>
+                </ion-item>
+              </ion-col>
+              <ion-col col-10>
+                <ion-item>
+                  <ion-label>From</ion-label>
+                  <ion-datetime displayFormat="DD MMM YYYY" min="{{min_date}}" max="{{max_date}}"
+                    placeholder="{{today}}" [(ngModel)]="from_date" (ngModelChange)="fromDate($event)" doneText="Ok"
+                    cancelText="Cancel">
+                  </ion-datetime>
+                </ion-item>
+                <ion-item>
+                  <ion-label>To</ion-label>
+                  <ion-datetime displayFormat="DD MMM YYYY" min="{{min_date}}" max="{{max_date}}"
+                    placeholder="{{today}}" [(ngModel)]="date" (ngModelChange)="selectDate($event)" doneText="Ok"
+                    cancelText="Cancel">
+                  </ion-datetime>
+                </ion-item>
+
+              </ion-col>
+            </ion-row>
+          </div>
+          <ion-item>
+            <ion-button slot="end" color="dark" (click)="filter()">Filter</ion-button>
+          </ion-item>
+        </div>
+      </ion-list>
+      <ion-list *ngIf="homeworks.length === 0 && fake === 1">
+        <br>
+        <ion-spinner name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%;"
+          color="primary"></ion-spinner>
+      </ion-list>
+      <ion-card *ngIf="homeworks.length == 0 && fake === 0 ">
+        <ion-card-content>
+          No homework for this student.
+        </ion-card-content>
+      </ion-card>
+      <!-- <ion-list *ngIf="posts.length === 0 && fake === 1">
+                <ion-item *ngFor="let i of [1,2];  let i = index"  >
+                      <ion-avatar slot="start" >
+                         <ion-skeleton-text animated></ion-skeleton-text>
+                       </ion-avatar>
+                       <ion-label>
+                         <h3><ion-skeleton-text animated style="width: 100%"></ion-skeleton-text></h3>
+                         <p><ion-skeleton-text animated style="width: 90%"></ion-skeleton-text></p>
+                         <p><ion-skeleton-text animated style="width: 80%"></ion-skeleton-text></p>
+                       </ion-label>
+                </ion-item>
+                </ion-list> -->
+      <!-- <ion-list *ngIf="homeworks.length > 0">
+        <div *ngFor="let h of homeworks;  let i = index">
+          <ion-grid>
+            <ion-row (click)="openHomework(h,this.school)">
+              <ion-col style="text-transform: uppercase; font-size: 12px;"> {{h.title}}
+                ({{h.subject_name}})</ion-col>
+
+            </ion-row>
+
+          </ion-grid>
+        </div>
+      </ion-list>
+       -->
+
+      <div *ngIf="homeworks.length > 0">
+        <div *ngFor="let h of homeworks; let i = index">
+          <ion-list style="padding: 0px;">
+            <div *ngIf="h.seen === true; else not_seen">
+                <ion-item  (click)="openHomework(h,this.school)" style="padding: 10px;">
+                  <ion-icon style="top:0px; color:#397C49;position: relative;" size="32" name="book" slot="start">
+                  </ion-icon>
+                  <div style="min-width: 100%; text-transform: uppercase; font-size: 12px; color:#397C49">
+                    {{h.title}} ({{h.subject_name}})
+                    <div class="news"><small>{{this.formatDate(h.assigned_date)}} By {{h.posted_by}}</small> </div>
+                  </div>
+                </ion-item>
+            </div>
+            <ng-template #not_seen>
+              
+                <ion-item  (click)="openHomework(h,this.school)" style="padding: 10px;">
+                  <ion-icon style="top:0px; color:black;position: relative;" size="32" name="book" slot="start">
+                  </ion-icon>
+                  <div style="min-width: 100%; text-transform: uppercase; font-size: 12px; color: black">
+                    {{h.title}} ({{h.subject_name}})
+                    <div class="news"><small>{{this.formatDate(h.assigned_date)}} By {{h.posted_by}}</small> </div>
+                  </div>
+                </ion-item>
+
+            </ng-template>
+          </ion-list>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <ion-fab *ngIf="feedback === 'true'" vertical="bottom" (click)="addfeed()" horizontal="end" slot="fixed">
+    <ion-fab-button color="tertiary">
+      <ion-icon name="chatbox-ellipses"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

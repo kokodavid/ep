@@ -1,0 +1,124 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start" style="font-size: 14px;">
+            <ion-back-button text="" icon="chevron-back">
+            </ion-back-button>
+            <div style="text-transform: uppercase;"> attendance</div>
+        </ion-buttons>
+    </ion-toolbar>
+
+    <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segment" value="absenteeism" mode="md">
+        <ion-segment-button value="absenteeism">
+            <ion-label style="color: white !important;">Absenteeism</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="attendance">
+            <ion-label style="color: white !important;">Attendance</ion-label>
+        </ion-segment-button>
+    </ion-segment>
+</ion-header>
+<ion-content [scrollEvents]="true" overflow-scroll="true">
+    <div [ngSwitch]="segment">
+        <div *ngSwitchCase="'absenteeism'">
+            <div style="background-color: white; margin: 10px; padding: 10px; border-radius: 5px;">
+                <h4>Report Absenteeism</h4>
+                <p class="text">Select the child/children and reason for absenteeism and enter the specific date
+                    or
+                    date range
+                    the student(s) will be absent.</p>
+
+                <form #absentForm="ngForm" (ngSubmit)="reportAbsent(absentForm)" method="post">
+                    <ion-item lines="none">
+                        <ion-label name="students" position="stacked" style="margin-bottom: 5px;">Student(s)
+                            <ion-icon small name="people"></ion-icon>
+                        </ion-label>
+
+                        <ion-input value={{this.student}} [readonly]="isReadonly()"></ion-input>
+                    </ion-item>
+                    <ion-item lines="none" class="no-ripple">
+                        <ion-label position="stacked" style="margin-bottom: 5px;">Reason <ion-icon small
+                                name="help-circle"></ion-icon>
+                        </ion-label>
+                        <ion-select ngModel name="reason" (ionChange)="reasonChange($event)">
+                            <ion-select-option value="Travel">Travel</ion-select-option>
+                            <ion-select-option value="Sickness">Sickness</ion-select-option>
+                            <ion-select-option value="Bereavment">Bereavment</ion-select-option>
+                            <ion-select-option value="other">Other</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                    <ion-item id="hid" hidden lines="none">
+                        <ion-label position="stacked" style="margin-bottom: 5px;"> Period <ion-icon small
+                                name="calendar"></ion-icon>
+                        </ion-label>
+
+                        <ion-datetime [ngStyle]="{'border': valid == 'true' ? 'solid 1px red' : 'solid 1px slategray'}"
+                            [(ngModel)]="from_date" name="from_date" (ngModelChange)="fromDate($event)"
+                            placeholder="From" displayFormat="DD MMM YYYY" doneText="Ok" cancelText="Cancel">
+                        </ion-datetime>
+                        <small *ngIf="valid == 'true'" style="color: red;"> <i>change start date</i></small>
+                        <br>
+                        <ion-datetime [ngStyle]="{'border': valid == 'true' ? 'solid 1px red' : 'solid 1px slategray'}"
+                            [(ngModel)]="to_date" name="to_date" (ngModelChange)="toDate($event)" placeholder="To"
+                            displayFormat="DD MMM YYYY" doneText="Ok" cancelText="Cancel">
+                        </ion-datetime>
+                        <small *ngIf="valid == 'true'" style="color: red;"> <i>change end date</i></small>
+                    </ion-item>
+                    <ion-item id="hid2" hidden lines="none">
+                        <ion-label position="stacked">Message <ion-icon small name="document-text"></ion-icon>
+                        </ion-label>
+                        <ion-textarea ngModel cols="20" rows="7" name="message" maxlength="500"></ion-textarea>
+                        <ion-button id="sub_button" type="submit">Report Absenteeism</ion-button>
+                    </ion-item>
+
+                </form>
+            </div>
+            <div style="background-color: white; margin: 10px; padding: 10px; border-radius: 5px;">
+                <h4>Absent Days</h4>
+                <p class="text">Below are the days the student was absent from school. <i><small>(Click for more
+                            info.)</small></i></p>
+                <ion-list>
+                    <div *ngIf="fake == 0 && absent_days.length == 0">
+                        <ion-spinner name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%;"
+                            color="primary">
+                        </ion-spinner>
+                    </div>
+                    <div *ngIf="fake == 1  && absent_days.length == 0">
+                        <small><i style="color: #397C49;">No Absent Records for student.</i></small>
+                    </div>
+                    <ion-item id="absentItem" lines="full" *ngFor="let ab of absent_days; let i = index">
+                        <ion-grid (click)="showInfo(i)">
+                            <ion-row>
+                                <small><strong>Absent due to</strong> {{ab.reason}}</small>
+                            </ion-row>
+                            <ion-row id="duration{{i}}">
+                                <small><strong>Duration:</strong> {{this.duration[i]}} day(s) of
+                                    {{this.month[i]}}</small>
+                            </ion-row>
+                            <div id="content{{i}}" hidden>
+                                <ion-row>
+                                    <small> <strong>Your note: </strong> "<i>{{ab.message}}</i>" </small>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col col-6>
+                                        <small><strong>From: </strong> {{this.formatDate(ab.starting)}}</small>
+                                    </ion-col>
+                                    <ion-col col-6>
+                                        <small><strong>To: </strong>{{this.formatDate(ab.ending)}}</small>
+                                    </ion-col>
+                                </ion-row>
+                            </div>
+                        </ion-grid>
+
+                    </ion-item>
+                </ion-list>
+            </div>
+
+
+        </div>
+        <div *ngSwitchCase="'attendance'">
+            <div class="center">
+                <ion-icon name="construct" style="zoom: 3.0;"></ion-icon><br>
+                <i><strong style="color: #397C49;">Coming soon</strong></i>
+            </div>
+        </div>
+    </div>
+</ion-content>

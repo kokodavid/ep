@@ -1,0 +1,53 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start" style="font-size: 14px;">
+          <ion-back-button text="" icon="chevron-back"></ion-back-button>MORE INFORMATION
+        </ion-buttons>
+    <!-- <ion-title>MORE INFORMATION</ion-title> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding" >
+  <ion-card>
+    <ion-card-header>
+     <!-- {{newsinfo.subject}} -->  
+     
+    </ion-card-header>
+    <div *ngIf = "newsinfo.subject !== newsinfo.message; else no_subject">
+    <ion-card-content>
+        <div [innerHTML]="newsinfo.subject"></div> 
+        <br>
+        <!-- <div *ngIf = "(newsinfo.message).includes('vimeo'); else normal_message"> -->
+          <!-- <iframe src="https://player.vimeo.com/video/403128423" width="256" height="144" frameborder="0" allow="autoplay; fullscreen" allowfullscreen title="sample"></iframe>
+        
+        <ion-button style="background-color:#397C49" (click)="inApp()">Play on Browser</ion-button> -->
+        <!-- </div> -->
+        <div>
+            <div [innerHTML]="newsinfo.message"></div>
+        </div>
+        <br>
+        <p>Posted By {{newsinfo.posted_by}}, {{this.formatdate(newsinfo.creation_date)}}</p>
+    </ion-card-content>
+    </div>
+    <ng-template #no_subject>
+      <ion-card-content>
+        <div [innerHTML]="newsinfo.message"></div><br>
+        <p>Posted By {{newsinfo.posted_by}}, {{this.formatdate(newsinfo.creation_date)}}</p>
+    </ion-card-content>
+    </ng-template>
+  </ion-card>
+  <div *ngIf="attachments.length > 0" class="ion-padding">
+       <ion-list  *ngFor="let item of attachments; let i = index; " >
+         <!-- <ion-item style="font-size:14px; color: blue; border-bottom: blue 1px !important" no-padding >
+          <span> {{i+1}}. <ion-icon ios="ios-attach" md="md-attach"></ion-icon>
+          <a  style="color: blue;font-size:13px; text-align: center" href={{assets+item}}  target="_blank" download={{item}}> {{item}}  </a></span>
+        </ion-item> -->
+        <ion-item style="font-size:14px; color: blue; border-bottom: blue 1px !important" no-padding (click)="download(item,assets+item)">
+          <span> {{i+1}}. <ion-icon name="document-attach" md="md-attach"></ion-icon>
+          <a  style="color: blue;font-size:13px; text-align: center"> {{item}}  </a></span>
+        </ion-item>
+      </ion-list>
+
+    </div>
+
+</ion-content>

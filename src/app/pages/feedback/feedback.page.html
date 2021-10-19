@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" style="font-size: 14px;">
+      <ion-back-button text="" icon="chevron-back"></ion-back-button>ADD FEEDBACK
+    </ion-buttons>
+    <!-- <ion-title>ADD FEEDBACK </ion-title> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="">
+  <ion-list *ngIf="students.length === 0 && fake === 1">
+    <ion-spinner name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%;"></ion-spinner>
+  </ion-list>
+  <form #form="ngForm" (ngSubmit)="post(form)" method="post">
+    <div *ngIf="refferences != undefined; else empty_subject">
+      <ion-item lines="none">
+        <ion-label position="stacked">Student(s)</ion-label>
+        <ion-input type="text" [(ngModel)]="student_name" name="student"></ion-input>
+      </ion-item>
+      <ion-item lines="none"> 
+        <ion-label position="stacked">Subject </ion-label>
+        <ion-input type="text" [(ngModel)]="subject" name="subject"></ion-input>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label position="stacked">Message</ion-label>
+        <ion-textarea ngModel name="message" maxlength="500"></ion-textarea>
+      </ion-item>
+      <ion-list>
+        <ion-row>
+          <ion-col col-4></ion-col>
+          <ion-col col-4>
+            <ion-button type="submit" color="warning">SEND FEEDBACK</ion-button>
+          </ion-col>
+          <ion-col col-4></ion-col>
+        </ion-row>
+      </ion-list>
+    </div>
+    <ng-template #empty_subject>
+      <ion-item lines="none">
+        <ion-label position="stacked" style="margin-bottom: 5px;">Student(s)</ion-label>
+        <ion-select multiple="true" ngModel name="student">
+          <ion-select-option *ngFor="let user of students" value={{user.student_id}}>
+            <small>{{user.first_name + ' ' + user.last_name}}</small></ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item  lines="none">
+        <ion-label position="stacked"  style="margin-bottom: 5px;">Subject</ion-label>
+          <ion-input ngModel name="subject"></ion-input>
+      </ion-item>
+      <ion-item  lines="none">
+        <ion-label position="stacked">Message</ion-label>
+        <ion-textarea ngModel cols="20" rows="7" placeholder="Type message..." name="message" maxlength="500"></ion-textarea>
+      </ion-item>
+      <ion-list>
+        <ion-row>
+          <ion-col col-4></ion-col>
+          <ion-col col-4>
+            
+          </ion-col>
+          <ion-col col-4>
+            <ion-button type="submit" color="warning">SEND FEEDBACK</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-list>
+    </ng-template>
+  </form>
+</ion-content>

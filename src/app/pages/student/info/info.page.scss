@@ -1,0 +1,69 @@
+h4{
+    font-size:14px;
+}
+ion-content{
+    ion-card-header{
+        color:black;
+        font-size: 12px;
+        font-weight: 500;
+        background-color: #ddd;
+        ion-icon{
+            margin:0px;
+            font-size: 1em;
+            font-weight: 500;
+        }
+       
+   
+    }
+    ion-card-content{
+        color:black;
+        font-size: 13px;
+        ion-list{
+            color:black;
+            font-size: 12px;
+            font-weight:400;
+        }  
+
+    }
+    // font-size: 12px;
+    ion-col{
+        margin: 0px;
+        color:black;
+        font-size: 12px;
+        font-weight:400;
+    }
+    ion-item{
+        font-size: 12px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    .info{
+        color:black;
+        font-size: 12px;
+        font-weight: 500;
+    }
+ 
+
+}
+
+.in{
+    margin-top: 5px;
+        color:black;
+        font-size: 16px;
+        font-weight: 700;
+        background-color: rgb(94, 91, 91);
+        //background-color: #ddd"
+
+}
+
+.topbar{
+    display:block;
+    width:100%;
+    max-height:18px;
+    font-size: 14px;
+    //background-color:#475;
+    //overflow:scroll;
+    }
+    ion-icon{
+        font-size: 20px;
+    }

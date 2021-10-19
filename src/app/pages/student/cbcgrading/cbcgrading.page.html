@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" style="font-size: 14px;">
+      <ion-back-button text="" icon="chevron-back"></ion-back-button>CBC GRADES
+    </ion-buttons>
+    <!-- <ion-title style="font-size:14px;">EXAMS & GRADES</ion-title> -->
+  </ion-toolbar>
+  <ion-item>
+    <ion-avatar slot="start" *ngIf="assets !==1">
+      <img src={{assets}}>
+    </ion-avatar>
+    <ion-avatar slot="start" *ngIf="assets === 1">
+      <ion-icon size="32" style="font-size: 2em" name="happy-outline"></ion-icon>
+    </ion-avatar>
+    <ion-label style="text-transform: uppercase;">{{student.first_name}} {{student.middle_name}} {{student.last_name}}
+    </ion-label>
+  </ion-item>
+
+</ion-header>
+<ion-content>
+
+  <div>
+    <ion-list-header>
+      <ion-button size="small" style="color: black;" disabled (click)="hide()">Filter <ion-icon name="chevron-down">
+        </ion-icon>
+      </ion-button>
+    </ion-list-header>
+    <div id="hid" hidden style="padding-left: 8px; padding-right: 8px;">
+      <ion-item>
+        <ion-label>Class</ion-label>
+        <ion-select id="class" cancelText="Cancel" okText="Ok" (ionChange)="classExamChange($event)">
+          <div *ngFor="let c of class_history">
+            <ion-select-option value="{{c}}">{{c}}</ion-select-option>
+          </div>
+
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Term</ion-label>
+        <ion-select cancelText="Cancel" okText="Ok" (ionChange)="termExamChange($event)">
+          <div *ngFor="let t of terms">
+            <ion-select-option value="{{t.term_name}}">{{t.term_name}}</ion-select-option>
+          </div>
+        </ion-select>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-button slot="end" color="dark" (click)="filterExam()">Filter</ion-button>
+      </ion-item>
+    </div>
+    <ion-list *ngIf="cbc_reports.length === 0 && fake === 1">
+      <br>
+      <ion-spinner name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%;" color="primary">
+      </ion-spinner>
+    </ion-list>
+    <ion-list *ngIf="cbc_reports.length === 0 && fake === 0">
+      <ion-item>No cbc report cards for this student</ion-item>
+    </ion-list>
+
+    <div *ngIf="cbc_reports.length > 0">
+      <div *ngFor="let cbc of cbc_reports; let i = index">
+        <div>
+          <ion-item (click)="cbcClick(cbc)" style="margin: 0px !important;">
+            <ion-col col-7 style=" color: green; font-size: 12px; font-weight:500;"><strong>Class Name</strong> <br>
+              {{cbc.class_name}}
+
+            </ion-col>
+            <ion-col col-3 style="text-align: center !important;"><strong>Term</strong> <br> {{cbc.term_name}}</ion-col>
+            <ion-col col-3 style="text-align: center !important;"><strong>Exam</strong> <br> {{cbc.exam_type}}</ion-col>
+
+          </ion-item>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <ion-fab *ngIf="feedback === 'true'" vertical="bottom" (click)="addfeed()" horizontal="end" slot="fixed">
+    <ion-fab-button color="tertiary">
+      <ion-icon name="chatbox-ellipses"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

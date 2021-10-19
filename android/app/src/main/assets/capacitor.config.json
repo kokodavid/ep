@@ -1,0 +1,29 @@
+{
+  "appId": "com.rivercross.eduwebearents",
+  "appName": "EduwebParents",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "cordova": {
+    "preferences": {
+      "ScrollEnabled": "false",
+      "android-minSdkVersion": "19",
+      "BackupWebStorage": "none",
+      "SplashMaintainAspectRatio": "true",
+      "SplashShowOnlyFirstTime": "true",
+      "KeyboardResize": "true",
+      "SplashScreen": "screen",
+      "UIWebViewBounce": "false",
+      "DisallowOverscroll": "true",
+      "SplashScreenDelay": "30000",
+      "FadeSplashScreenDuration": "0",
+      "AutoHideSplashScreen": "false",
+      "FadeSplashScreen": "false",
+      "ShowSplashScreen": "true",
+      "webviewbounce": "false",
+      "loadUrlTimeoutValue": "7000",
+      "ShowSplashScreenSpinner": "true",
+      "CordovaWebViewEngine": "CDVWKWebViewEngine"
+    }
+  }
+}

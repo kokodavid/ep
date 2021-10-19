@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title >{{this.name}} {{this.term}} </ion-title>
+    <ion-title *ngIf="chartype === 1">Overall performance analysis</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismisModal()" slot="end">
+        <ion-icon name="close-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <canvas #barChart *ngIf="chartype !== 1" style="width: 250px;"></canvas>
+  <canvas #lineChart *ngIf="chartype === 1" style="height: 250px;"></canvas>
+</ion-content>

@@ -1,0 +1,11 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "EduwebParents",
+  "short_name": "EduwebParents",
+  "version": "com.eduwebparents",
+  "description": "A school management system.",
+  "author": "Arthur Pundo",
+  "icons": [],
+  "start_url": "index.html"
+}

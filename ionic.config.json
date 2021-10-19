@@ -1,0 +1,8 @@
+{
+  "name": "eduwebparents",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
+  "type": "angular"
+}

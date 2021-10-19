@@ -1,0 +1,50 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start" style="font-size: 14px;">
+            <ion-back-button text="" icon="chevron-back"></ion-back-button>School Contact
+        </ion-buttons>
+        <!-- <ion-title style="text-transform: uppercase">Report Card</ion-title> -->
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-item>
+        <img src={{header}} />
+    </ion-item>
+    <div style="margin: 15px;">
+        <ion-item lines="none">
+            <ion-icon name="school" slot="start"></ion-icon>
+
+            {{school_info.school_name}}
+        </ion-item>
+        <ion-item lines="none">
+            <ion-icon name="earth" slot="start"></ion-icon>
+            <p style="font-size: normal;"> {{school_info.address_1}}, {{school_info.address_2}}, {{school_info.country}}
+            </p>
+
+        </ion-item>
+        <ion-item lines="none">
+            <ion-icon name="mail" slot="start"></ion-icon>
+            <a href="mailto:{{school_info.email_address}}" style="font-size: normal;">{{school_info.email_address}}</a>
+        </ion-item>
+        <ion-item lines="none">
+            <ion-icon name="call" slot="start"></ion-icon>
+            <a href="tel:{{school_info.phone_number}}">{{school_info.phone_number}}</a>
+        </ion-item>
+        <ion-item lines="none">
+            <ion-icon name="cash" slot="start"></ion-icon>
+            <p>Payment information</p>
+
+        </ion-item>
+        <div *ngFor="let bd of banking_details">
+            <ion-item lines="none" *ngIf="bd.active === true">
+                <ul style="font-size: small; list-style: none; ">
+                <li>{{bd.name}}</li>
+                <li>{{bd.branch}}</li>
+                <li>{{bd.acc_name}}</li>
+                <li (click)="copyText(bd.acc_number)" style="color: #397C49;">{{bd.acc_number}}</li>
+                </ul>
+            </ion-item>
+        </div>
+    </div>
+</ion-content>

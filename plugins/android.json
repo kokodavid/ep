@@ -1,0 +1,37 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.eduwebparents"
+    },
+    "cordova-plugin-streaming-media": {
+      "PACKAGE_NAME": "com.eduwebparents"
+    },
+    "cordova-plugin-wkwebview-engine": {
+      "PACKAGE_NAME": "com.eduwebparents"
+    },
+    "cordova-plugin-document-viewer": {
+      "PACKAGE_NAME": "com.eduwebparents"
+    },
+    "cordova-plugin-advanced-http": {
+      "PACKAGE_NAME": "com.eduwebparents"
+    },
+    "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "com.eduwebparents"
+    },
+    "com.darktalker.cordova.screenshot": {
+      "PACKAGE_NAME": "com.eduwebparents"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.eduwebparents"
+    }
+  }
+}

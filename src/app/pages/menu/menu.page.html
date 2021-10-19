@@ -1,0 +1,51 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start" style="font-size: 14px;">
+            <ion-back-button text="" icon="chevron-back"></ion-back-button>MEALS MENU
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="table_wrapper">
+        <p style="text-transform: capitalize; text-align: center;">
+            <b>{{school}} Meal Menu</b>
+        </p>
+        <div *ngIf="noMenu == false">
+            <table border="1" width=100%>
+                <tr width="100%" style="font-weight: 400;">
+                    <th><b>DAYS</b></th>
+                    <th *ngFor="let sd of sample_data; let i = index">
+
+                        <b>{{sd.name}}</b>
+                    </th>
+                </tr>
+                <tr *ngFor="let m of meal1; let i = index">
+                    <td>
+                        {{days[i]}}
+                    </td>
+                    <td>
+                        <div [innerHTML]="m.meal"></div>
+                    </td>
+
+                    <td>
+                <tr *ngFor="let s of meal2; let k = index">
+                    <div *ngIf="s.day_name === days[i]">
+                        <div [innerHTML]="s.meal"></div>
+                    </div>
+                </tr>
+                </td>
+
+
+                </tr>
+
+
+            </table>
+            <!-- <ion-button (click)="print()" size="medium"
+                style="background-color: #397C49; border-radius: 4px; font-weight: 500; font-size: 16px; margin-left:auto; margin-right:auto; margin-bottom: 12px; width: 50%;"
+                expand="block">Download Menu</ion-button> -->
+        </div>
+        <h6 *ngIf="noMenu == true"><i>No meal menu</i></h6>
+
+    </div>
+
+</ion-content>

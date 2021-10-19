@@ -1,0 +1,85 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" style="font-size: 14px;">
+      <ion-back-button text="" icon="chevron-back">
+
+      </ion-back-button>ANALYTICS
+    </ion-buttons>
+    <!-- <ion-title style="font-size:14px;">POSTS & HOMEWORK</ion-title> -->
+  </ion-toolbar>
+  <ion-item style="--background: none;">
+    <ion-avatar slot="start" *ngIf="assets !==1">
+      <img src={{assets}}>
+    </ion-avatar>
+    <ion-avatar slot="start" *ngIf="assets === 1">
+      <ion-icon size="32" style="font-size: 2em" name="happy-outline"></ion-icon>
+    </ion-avatar>
+    <ion-label style="text-transform: uppercase;">{{student.first_name}} {{student.middle_name}} {{student.last_name}}
+    </ion-label>
+  </ion-item>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="vertical-center" *ngIf="nodata === 'true'" >
+      <ion-item lines="none" >No analytic information for this student.</ion-item>
+  </div>
+  <div *ngIf="report_cards.length>0">
+    <ion-icon style="padding-top: 10px; color: #397C49;" #helper size="medium" name="information-circle"></ion-icon><i style="color:#397C49;">Click on card to view detailed analysis</i>
+    <h5>Overall performance</h5>
+    <ion-card style="height: 180px;">
+      <canvas (click)="ovModal()" #overallChart></canvas>
+    </ion-card>
+    
+    <ion-list>
+      <h5 style="margin-bottom: -5px;">Subject performance</h5>
+      <ion-list-header>
+        <ion-button size="small" style="color: black;" (click)="hide()">Filter <ion-icon name="chevron-down">
+          </ion-icon>
+        </ion-button>
+      </ion-list-header>
+
+      <div id="hid" hidden style="padding-left: 8px; padding-right: 8px;">
+        <ion-item>
+          <ion-label>Class</ion-label>
+          <ion-select id="class" cancelText="Cancel" okText="Ok" (ionChange)="classChange($event)">
+            <ion-select-option value="all">All</ion-select-option>
+            <div *ngFor="let c of class_history">
+              <ion-select-option value="{{c}}">{{c}}</ion-select-option>
+            </div>
+          </ion-select>
+        </ion-item>
+        <ion-item >
+          <ion-label>Term</ion-label>
+          <ion-select cancelText="Cancel" okText="Ok" (ionChange)="termChange($event)">
+            <div *ngFor="let t of terms">
+              <ion-select-option value="{{t.term_id}}">{{t.term_name}}</ion-select-option>
+            </div>
+          </ion-select>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-button slot="end" color="dark" (click)="filter()">Filter</ion-button>
+        </ion-item>
+      </div>
+    </ion-list>
+    
+    <ion-grid class="grid_graphs">
+      <ion-row>
+        <ion-col size="6" style="margin: -5px;"  *ngFor="let r of report_cards; let i = index" >
+          <div (click)="openModal(r)">
+            <ion-card tooltip="Okay lets see" positionV="bottom">
+              <canvas #lineChart *ngIf="i == 0" style="height: 180px; width: 200px;"></canvas>
+              <canvas #lineChart2 *ngIf="i == 1" style="height: 180px;"></canvas>
+              <canvas #lineChart3 *ngIf="i == 2" style="height: 180px;"></canvas>
+              <!-- <apx-chart #chartObj></apx-chart> -->
+
+              <!-- <apx-chart [series]="series" [chart]="chart" [title]="title"></apx-chart> -->
+            </ion-card> 
+            <p style="text-align: center;"><strong>{{r.term_name}}</strong></p>
+          </div>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+
+</ion-content>

@@ -1,0 +1,866 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" style="font-size: 14px;">
+      <ion-back-button text="" icon="chevron-back"></ion-back-button>REPORT CARDS
+    </ion-buttons>
+    <!-- <ion-title style="text-transform: uppercase">Report Card</ion-title> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="capture">
+    <table width="100%">
+      <tr>
+        <td width="100%" height="70">
+          <img src={{header1}} />
+        </td>
+      </tr>
+      <tr>
+        <td width="100%">
+          <h4 style="text-align: center; font-size:12px;">PROGRESS REPORT</h4>
+        </td>
+      </tr>
+      <!-- <tr><td width="100%" colspan="3">Name: {{student.first_name}} {{student.last_name}} </td></tr>
+      <tr><td width="50%" colspan="1">Class: <small>{{reportCard.class_name}}</small></td> <td width="50%" colspan="2">Class Teacher:<small> {{reportCard.teacher_name}}</small></td></tr>
+      <tr><td width="32.3%" colspan="1">Term: {{reportCard.term_name}} </td> <td width="33.3%" colspan="1">Year: {{reportCard.year}} </td><td width="33.3%" colspan="1">Date: {{this.formatDate(reportCard.date)}} </td></tr> -->
+    </table>
+    <ion-item *ngIf="fake === 0 && exam_marks.length === 0">
+      <ion-spinner name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%;" color="primary">
+      </ion-spinner>
+    </ion-item>
+    <ion-item *ngIf="fake === 1 && exam_marks.length === 0">
+      No report Card information
+    </ion-item>
+
+    <div *ngIf="exam_marks.length > 0">
+      <div *ngIf="student.school !== 'lasalle'">
+        <ion-row>
+          <ion-col col-12> Name: {{reportCards.student_name}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6> Class: <small>{{reportCards.class_name}}</small></ion-col>
+          <ion-col col-6>Admission Number:<small> {{reportCards.admission_number}}</small></ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>Term: {{reportCards.term_name}} </ion-col>
+          <ion-col col-6>Year: {{reportCards.year}} </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let p of positions">
+          <ion-col col-6>Position : <small></small>{{p.this_term_position.position}} /
+            {{p.this_term_position.position_out_of}}</ion-col>
+          <ion-col col-6 *ngIf="p.last_term_position !== null">Position Last
+            Term:<small>{{p.last_term_position.position}}
+              /
+              {{p.last_term_position.position_out_of}}</small></ion-col>
+        </ion-row>
+        <ion-row *ngFor="let ov of overall">
+          <ion-col col-6>Last Term Marks: <small>{{ov.last_term_marks_and_grade[0].overall_mark}}</small>
+          </ion-col>
+          <ion-col col-6>Current Term Marks:<small>{{ov.this_term_marks_and_grade[0].overall_mark}}</small></ion-col>
+        </ion-row>
+
+
+        <div *ngIf="cbc ==='cbc'">
+
+        </div>
+        <div *ngIf="cbc != 'cbc'" class="table_wrapper">
+          <table border="1">
+            <tr>
+              <td width="4%" rowspan="3"> SUBJECT </td>
+              <td scope="col" [attr.colspan]=colspan> MARKS </td>
+            </tr>
+            <tr>
+              <td *ngFor="let t of exam_type">
+                {{t}}
+            <tr>
+              <td scope="col">Mark %</td>
+              <td scope="col">Grade</td>
+              <td scope="col">OutOf</td>
+            </tr>
+            </td>
+            <td scope="col">
+              Overall
+              <tr>
+                <td scope="col">Avg</td>
+                <td scope="col">Grade</td>
+              </tr>
+            </td>
+            </tr>
+            <tbody *ngFor="let r of sub;  let i = index">
+              <tr style="text-align: center">
+                <td style="text-align: start;  font-size:12px; font-weight:bold;" *ngIf="r.parent_subject_id === null"
+                  width="4%">
+                  {{r.subject_name}}
+                </td>
+                <td style="font-size:12px;  margin-left: 5px !important;" *ngIf="r.parent_subject_id !== null"
+                  width="4%">
+                  {{r.subject_name}}
+                </td>
+
+                <td style="font-size: 12px; text-align: center;" scope="col" *ngIf="cat1.length != 0">
+              <tr *ngFor="let ca of cat1" style="text-align: center;">
+                <td *ngIf="r.subject_name === ca.subject_name && ca.mark !== null" scope="col">
+                  <div *ngIf="ca.mark !== null">
+                    {{ca.mark}}
+                  </div>
+                </td>
+                <td scope="col" *ngIf="r.subject_name === ca.subject_name && ca.mark !== null">
+                  <div *ngIf="ca.grade !== null">
+                    {{ca.grade}}
+                  </div>
+                </td>
+                <td scope="col" *ngIf="r.subject_name === ca.subject_name && ca.mark != null">
+                  {{ca.out_of}}
+                </td>
+              </tr>
+              </td>
+              <td style="font-size: 12px;" scope="col" *ngIf="exam_marks.length > 1 && cat2.length != 0">
+                <tr *ngFor="let ca of cat2" style="text-align: center;">
+                  <td *ngIf="r.subject_name === ca.subject_name && ca.mark != null" scope="col">
+                    {{ca.mark}}
+
+                  </td>
+                  <td scope="col" *ngIf="r.subject_name === ca.subject_name && ca.grade != null">
+                    {{ca.grade}}
+                  </td>
+                  <td scope="col" *ngIf="r.subject_name === ca.subject_name && ca.mark != null">
+                    {{ca.out_of}}
+                  </td>
+                </tr>
+              </td>
+              <td style="font-size: 12px;" scope="col" *ngIf="exam_marks.length > 2 && cat3.length != 0">
+                <tr *ngFor="let ca of cat3" style="text-align: center;">
+                  <td *ngIf="r.subject_name === ca.subject_name && ca.mark != null" scope="col">
+                    {{ca.mark}}
+
+                  </td>
+                  <td scope="col" *ngIf="r.subject_name === ca.subject_name && ca.grade != null">
+                    {{ca.grade}}
+                  </td>
+                  <td scope="col" *ngIf="r.subject_name === ca.subject_name && ca.mark != null">
+                    {{ca.out_of}}
+                  </td>
+                </tr>
+              </td>
+              <td style="font-size: 12px;" scope="col" *ngIf="exam_marks.length > 3 && cat4.length != 0">
+                <tr *ngFor="let ca of cat4" style="text-align: center;">
+                  <td *ngIf="r.subject_name === ca.subject_name && ca.mark != null" scope="col">
+                    {{ca.mark}}
+
+                  </td>
+                  <td scope="col" *ngIf="r.subject_name === ca.subject_name && ca.grade != null">
+                    {{ca.grade}}
+                  </td>
+                  <td scope="col" *ngIf="r.subject_name === ca.subject_name && ca.mark != null">
+                    {{ca.out_of}}
+                  </td>
+                </tr>
+              </td>
+              <td style="font-size: 12px;" scope="col" *ngIf="exam_marks.length > 4 && cat5.length != 0">
+                <tr *ngFor="let ca of cat5" style="text-align: center;">
+                  <td *ngIf="r.subject_name === ca.subject_name && ca.mark != null" scope="col">
+                    {{ca.mark}}
+
+                  </td>
+                  <td scope="col" *ngIf="r.subject_name === ca.subject_name && ca.grade != null">
+                    {{ca.grade}}
+                  </td>
+                  <td scope="col" *ngIf="r.subject_name === ca.subject_name && ca.mark != null">
+                    {{ca.out_of}}
+                  </td>
+                </tr>
+              </td>
+              <td style="font-size: 12px;" scope="col" *ngIf="exam_marks.length > 5 && cat6.length != 0">
+                <tr *ngFor="let ca of cat6" style="text-align: center;">
+                  <td *ngIf="r.subject_name === ca.subject_name && ca.mark != null" scope="col">
+                    {{ca.mark}}
+
+                  </td>
+                  <td scope="col" *ngIf="r.subject_name === ca.subject_name && ca.grade != null">
+                    {{ca.grade}}
+                  </td>
+                  <td scope="col" *ngIf="r.subject_name === ca.subject_name && ca.mark != null">
+                    {{ca.out_of}}
+                  </td>
+                </tr>
+              </td>
+              <td style="font-size: 12px;" scope="col" *ngIf="exam_marks.length > 6 && cat7.length != 0">
+                <tr *ngFor="let ca of cat7" style="text-align: center;">
+                  <td *ngIf="r.subject_name === ca.subject_name && ca.mark != null" scope="col">
+                    {{ca.mark}}
+
+                  </td>
+                  <td scope="col" *ngIf="r.subject_name === ca.subject_name && ca.grade != null">
+                    {{ca.grade}}
+                  </td>
+                  <td scope="col" *ngIf="r.subject_name === ca.subject_name && ca.mark != null">
+                    {{ca.out_of}}
+                  </td>
+                </tr>
+              </td>
+              <td scope="col">
+                <tr *ngFor="let o of subjOvrl" style="text-align: center">
+                  <td scope="col" *ngIf="o.subject_id === r.subject_id">
+                    {{o.average}}%
+                  </td>
+                  <td scope="col" *ngIf="o.subject_id === r.subject_id">
+                    {{o.grade}}
+                  </td>
+                </tr>
+              </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td>TOTAL</td>
+                <td *ngFor="let t of total;  let i = index" scope="col">
+              <tr style="text-align: center">
+                <td scope="col" style="text-align: center" *ngIf="t.total !== null">{{t.total}}</td>
+                <td scope="col" style="text-align: center" *ngIf="t.grade !== null">{{t.grade}}</td>
+                <td scope="col" style="text-align: center" *ngIf="t.grade !== null">{{t.out_of}}</td>
+                <!-- <td scope="col" style="text-align: center;" *ngIf="t.total === null">0</td> -->
+                <!-- <td scope="col" style="text-align: center;" *ngIf="t.grade === null">0</td> -->
+              </tr>
+              </td>
+              <td scope="col" style="text-align: center" *ngFor="let ovg of avg">
+                <tr style="text-align: center">
+                  <td scope="col" style="text-align: center;" *ngIf="ovg.percentage !== null">
+                    {{ovg.percentage}} %
+                  </td>
+                  <td scope="col" style="text-align: center;" *ngIf="ovg.overall_grade !== null">
+                    {{ovg.overall_grade}}
+                  </td>
+                </tr>
+
+
+              </td>
+              </tr>
+
+            </tfoot>
+          </table>
+        </div>
+
+        <h1 style="font-size: 12px;">REMARKS</h1>
+        <table width="100%" border="1">
+          <tr>
+            <td width="50%" style="text-align:inherit; margin:1px;;"><b>Class Teacher Name:</b>
+              {{comments.teacher_name}}
+            </td>
+            <td width="50%" style="text-align:inherit; margin:1px;"><b>Comments:</b> {{comments.teacher_comments}}</td>
+          </tr>
+          <tr>
+            <td width="50%" style="text-align:start; margin:1px;;"> <b>Head Teacher Name:</b>
+              {{comments.head_teacher_name}}
+
+            </td>
+            <td width="50%" style="text-align:inherit; margin:1px;"><b>Comments:</b> {{comments.principle_comments}}
+            </td>
+
+          </tr>
+          <tr>
+            <td width="100%">Closing Date: <br>{{this.formatDate(closing_date)}}</td>
+            <td width="100%" *ngIf="opening_date">Next Terms Begins: <br>{{this.formatDate(opening_date)}}</td>
+          </tr>
+        </table>
+      </div>
+      <div *ngIf="student.school === 'lasalle'">
+        <!-- kgs lasalle -->
+
+
+        <!-- grades lasalle -->
+        <!--LASALLE LOWER PRIMARY SCHOOL-->
+        <div *ngIf="student.class_cat_id === 5 || student.class_cat_id === 7 || student.class_cat_id === 9 ||student.class_cat_id === 6 || student.class_cat_id === 8 || student.class_cat_id === 21
+          || student.class_cat_id === 39">
+
+          <ion-row>
+            <ion-col col-12> Name: {{reportCards.student_name}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-6> Class: <small>{{reportCards.class_name}}</small></ion-col>
+            <ion-col col-6>Admission Number:<small> {{reportCards.admission_number}}</small></ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-6>Term: {{reportCards.term_name}} </ion-col>
+            <ion-col col-6>Year: {{reportCards.year}} </ion-col>
+          </ion-row>
+          <!-- <ion-row *ngFor="let p of positions">
+            <ion-col col-6>Position : <small></small>{{p.this_term_position.position}} /
+              {{p.this_term_position.position_out_of}}</ion-col>
+            <ion-col col-6 *ngIf="p.last_term_position !== null">Position Last
+              Term:<small>{{p.last_term_position.position}}
+                /
+                {{p.last_term_position.position_out_of}}</small></ion-col>
+          </ion-row> -->
+          <!-- <ion-row *ngFor="let ov of overall">
+            <ion-col col-6>Last Term Marks: <small>{{ov.last_term_marks_and_grade[0].overall_mark}}</small>
+            </ion-col>
+            <ion-col col-6>Current Term Marks:<small>{{ov.this_term_marks_and_grade[0].overall_mark}}</small></ion-col>
+          </ion-row> -->
+          <div class="table_wrapper">
+            <table border="1">
+              <tr style="width:100%;">
+                <td scope="col" rowspan="2"> LEARNING AREA</td>
+                <td scope="col" colspan="4">MARKS</td>
+                <td>Educator's init</td>
+              </tr>
+              <tr>
+                <!-- <td width="7%" >
+              </td> -->
+                <td scope="col" style=" font-size:13px;">
+                  EE
+              <tr>
+                <td style=" font-size:13px;" scope="col">4</td>
+              </tr>
+              </td>
+              <td scope="col" style=" font-size:13px;">
+                ME
+                <tr>
+                  <td style=" font-size:13px;" scope="col">3</td>
+                </tr>
+              </td>
+              <td scope="col" style=" font-size:13px;">
+                AE
+                <tr>
+                  <td style=" font-size:13px;" scope="col">2</td>
+                </tr>
+              </td>
+              <td scope="col" style=" font-size:13px;">
+                BE
+                <tr>
+                  <td style=" font-size:13px;">1</td>
+                </tr>
+              </td>
+              <td scope="col">
+
+              </td>
+
+              <!-- <td scope="col">
+                Overall
+                <tr>
+                  <td scope="col">Mark %</td>
+                  <td scope="col">Grade</td>
+                </tr>
+              </td> -->
+              </tr>
+              <tbody *ngFor="let r of  sub;  let i = index">
+                <tr style="text-align: center">
+                  <td style="text-align: start; font-size:12px; font-weight:bold">
+                    {{r.subject_name}}
+                  </td>
+
+                  <td scope="col">
+                    <tr>
+  
+                    </tr>
+                  </td>
+                <td scope="col">
+                  <tr>
+
+                  </tr>
+                </td>
+                <td scope="col">
+                 <tr>
+
+                 </tr>
+                </td>
+                <td scope="col">
+                  <tr>
+
+                  </tr>
+                </td>
+                <td scope = "col">{{r.initials}}</td>
+                <!-- <td scope="col">
+                  <tr *ngFor="let o of subjOvrl" style="text-align: center">
+                    <td scope="col" *ngIf="o.subject_id === r.subject_id">
+                      {{o.average}}%
+                    </td>
+                    <td scope="col" *ngIf="o.subject_id === r.subject_id">
+                      {{o.grade}}
+                    </td>
+                  </tr>
+                </td> -->
+                </tr>
+
+              </tbody>
+
+            </table>
+          </div>
+          <div><br></div>
+          <table width="100%" border="1">
+            <tr>
+              <td width="100%" colspan="4" style="text-align: center"> KEY TABLE</td>
+            </tr>
+            <tr>
+              <td width="60%" colspan="4" style="text-align: center">DETAILS</td>
+            </tr>
+            <tr *ngFor="let k of keys;  let i = index">
+              <td width="10%" style="text-align: start; font-size:12px">{{k.kiswahili_comment}} </td>
+              <td style="text-align: start; font-size:12px">{{k.comment}}</td>
+              <td style="text-align: center; font-size:12px">{{k.grade2}}</td>
+              <td style="text-align: center; font-size:12px">{{k.min_mark}}-{{k.max_mark}}</td>
+            </tr>
+
+          </table>
+
+
+          <!-- <div><br></div>
+          <table width="100%" border="1">
+            <tr>
+              <td colspan="3" style="text-align: center"> ACQUISITION OF COMPETENCIES</td>
+            </tr>
+            <tr>
+              <td style="text-align: start; font-size:12px">Competency</td>
+              <td style="text-align: start; font-size:12px">Performance Indicators (EE, ME, AE, BE)</td>
+              <td style="text-align: start; font-size:12px">Teacher's Comment</td>
+            </tr>
+            <tr *ngIf="comments.cbc === undefined ">
+              <td style="text-align: start"> Communication and collaboration</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr *ngIf="comments.cbc !== undefined ">
+              <td style="text-align: start">Communication and collaboration</td>
+              <td> {{comments.cbc[0]}}</td>
+              <td *ngIf="comments.cbc_teacher !== undefined">{{comments.cbc_teacher[0]}}</td>
+              <td *ngIf="comments.cbc_teacher === undefined"></td>
+            </tr>
+            <tr *ngIf="comments.cbc === undefined">
+              <td style="text-align: start">Critical thinking and problem solving</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr *ngIf="comments.cbc !== undefined || comments.cbc_teacher !== undefined">
+              <td style="text-align: start">Critical thinking and problem solving</td>
+              <td>{{comments.cbc[1]}}</td>
+              <td *ngIf="comments.cbc_teacher !== undefined">{{comments.cbc_teacher[1]}}</td>
+              <td *ngIf="comments.cbc_teacher === undefined"></td>
+            </tr>
+            <tr *ngIf="comments.cbc === undefined">
+              <td style="text-align: start">Imagination and creativity</td>
+              <td></td>
+              <td></td>
+            </tr>
+
+            <tr *ngIf="comments.cbc !== undefined || comments.cbc_teacher !== undefined ">
+              <td style="text-align: start">Imagination and creativity</td>
+              <td>{{comments.cbc[2]}}</td>
+              <td *ngIf="comments.cbc_teacher !== undefined">{{comments.cbc_teacher[2]}}</td>
+              <td *ngIf="comments.cbc_teacher === undefined"></td>
+            </tr>
+            <tr *ngIf="comments.cbc === undefined">
+              <td style="text-align: start">Learning to learn</td>
+              <td></td>
+              <td></td>
+            </tr>
+
+            <tr *ngIf="comments.cbc !== undefined">
+              <td style="text-align: start"> Learning to learn</td>
+              <td>{{comments.cbc[3]}}</td>
+              <td *ngIf="comments.cbc_teacher !== undefined">{{comments.cbc_teacher[3]}}</td>
+              <td *ngIf="comments.cbc_teacher === undefined"></td>
+            </tr>
+            <tr *ngIf="comments.cbc === undefined">
+              <td style="text-align: start">Digital literacy</td>
+              <td></td>
+              <td></td>
+            </tr>
+
+            <tr *ngIf="comments.cbc !== undefined || comments.cbc_teacher !== undefined">
+              <td style="text-align: start"> Digital literacy</td>
+              <td>{{comments.cbc[4]}}</td>
+              <td *ngIf="comments.cbc_teacher !== undefined">{{comments.cbc_teacher[4]}}</td>
+              <td *ngIf="comments.cbc_teacher === undefined"></td>
+            </tr>
+
+            <tr *ngIf="comments.cbc === undefined">
+              <td style="text-align: start">Self-effiency</td>
+              <td></td>
+              <td></td>
+            </tr>
+
+            <tr *ngIf="comments.cbc !== undefined || comments.cbc_teacher !== undefined">
+              <td style="text-align: start">Self-effiency</td>
+              <td>{{comments.cbc[5]}}</td>
+              <td *ngIf="comments.cbc_teacher !== undefined">{{comments.cbc_teacher[5]}}</td>
+              <td *ngIf="comments.cbc_teacher === undefined"></td>
+            </tr>
+            <tr *ngIf="comments.cbc === undefined">
+              <td style="text-align: start">Citizenship</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr *ngIf="comments.cbc !== undefined || comments.cbc_teacher !== undefined">
+              <td style="text-align: start">Citizenship</td>
+              <td>{{comments.cbc[6]}}</td>
+              <td *ngIf="comments.cbc_teacher !== undefined">{{comments.cbc_teacher[6]}}</td>
+              <td *ngIf="comments.cbc_teacher === undefined"></td>
+            </tr>
+
+          </table> -->
+
+          <div><br></div>
+          <!-- <table width="100%" border="1">
+            <tr>
+              <td colspan="5" style="text-align: center"> GENERAL CONDUCT AND BEHAVIOUR</td>
+            </tr>
+            <tr>
+              <td style="text-align: start; font-size:12px">Behaviour and Work Habits</td>
+              <td style="text-align: start; font-size:12px">Excellent</td>
+              <td style="text-align: start; font-size:12px">Good</td>
+              <td style="text-align: start; font-size:12px">Satisfactory</td>
+              <td style="text-align: start; font-size:12px">Cause For Concern</td>
+            </tr>
+            <tr *ngIf="comments.cbc_general === undefined">
+              <td style="text-align: start; font-size:12px">Punctuality</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr *ngIf="comments.cbc_general !== undefined">
+              <td style="text-align: start; font-size:12px"> Punctuality</td>
+              <td *ngIf="comments.cbc_general[0] ==='Excellent'">
+                <ion-icon name="checkmark"></ion-icon>
+              </td>
+              <td *ngIf="comments.cbc_general[0] ==='Good'">
+                <ion-icon name="checkmark"></ion-icon>
+              </td>
+              <td *ngIf="comments.cbc_general[0] ==='Satisfactory'">
+                <ion-icon name="checkmark"></ion-icon>
+              </td>
+              <td *ngIf="comments.cbc_general[0] ==='Cause For Concern'">
+                <ion-icon name="checkmark"></ion-icon>
+              </td>
+            </tr>
+
+            <tr *ngIf="comments.cbc_general === undefined">
+              <td style="text-align: start; font-size:12px">Time Management</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr *ngIf="comments.cbc_general !== undefined">
+              <td style="text-align: start; font-size:12px">Time Management</td>
+              <td *ngIf="comments.cbc_general[1] ==='Excellent'">
+                <ion-icon name="checkmark"></ion-icon>
+              </td>
+              <td *ngIf="comments.cbc_general[1] ==='Good'">
+                <ion-icon name="checkmark"></ion-icon>
+              </td>
+              <td *ngIf="comments.cbc_general[1] ==='Satisfactory'">
+                <ion-icon name="checkmark"></ion-icon>
+              </td>
+              <td *ngIf="comments.cbc_general[1] ==='Cause For Concern'">
+                <ion-icon name="checkmark"></ion-icon>
+              </td>
+            </tr>
+
+
+            <tr *ngIf="comments.cbc_general === undefined">
+              <td style="text-align: start; font-size:12px">Following Instructions</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+
+            <tr *ngIf="comments.cbc_general !== undefined">
+              <td style="text-align: start; font-size:12px">Following Instructions</td>
+              <td *ngIf="comments.cbc_general[2] ==='Excellent'">
+                <ion-icon name="checkmark"></ion-icon>
+              </td>
+              <td *ngIf="comments.cbc_general[2] ==='Good'">
+                <ion-icon name="checkmark"></ion-icon>
+              </td>
+              <td *ngIf="comments.cbc_general[2] ==='Satisfactory'">
+                <ion-icon name="checkmark"></ion-icon>
+              </td>
+              <td *ngIf="comments.cbc_general[2] ==='Cause For Concern'">
+                <ion-icon name="checkmark"></ion-icon>
+              </td>
+            </tr>
+
+
+            <tr *ngIf="comments.cbc_general === undefined">
+              <td style="text-align: start; font-size:12px"> Respect For Others</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+
+            <tr *ngIf="comments.cbc_general !== undefined">
+              <td style="text-align: start; font-size:12px"> Respect For Others</td>
+              <td *ngIf="comments.cbc_general[3] ==='Excellent'">
+                <ion-icon name="checkmark"></ion-icon>
+              </td>
+              <td *ngIf="comments.cbc_general[3] ==='Good'">
+                <ion-icon name="checkmark"></ion-icon>
+              </td>
+              <td *ngIf="comments.cbc_general[3] ==='Satisfactory'">
+                <ion-icon name="checkmark"></ion-icon>
+              </td>
+              <td *ngIf="comments.cbc_general[3] ==='Cause For Concern'">
+                <ion-icon name="checkmark"></ion-icon>
+              </td>
+            </tr>
+          </table> -->
+          <h1 style="font-size: 12px;">REMARKS</h1>
+          <table width="100%" border="1">
+            <tr>
+              <td width="50%" style="text-align:inherit; margin:1px;;"><b>Class Teacher Name:</b>
+                {{comments.teacher_name}}
+              </td>
+              <td width="50%" style="text-align:inherit; margin:1px;"><b>Comments:</b> {{comments.teacher_comments}}
+              </td>
+            </tr>
+            <tr>
+              <td width="50%" style="text-align:start; margin:1px;;"> <b>Head Teacher Name:</b>
+                {{comments.head_teacher_name}}
+
+              </td>
+              <td width="50%" style="text-align:inherit; margin:1px;"><b>Comments:</b> {{comments.principle_comments}}
+              </td>
+
+            </tr>
+            <tr>
+              <td width="100%">Closing Date: <br>{{this.formatDate(closing_date)}}</td>
+              <td width="100%" *ngIf="opening_date">Next Terms Begins: <br>{{this.formatDate(opening_date)}}</td>
+            </tr>
+          </table>
+        </div>
+        <!--LASALLE UPPER PRIMARY SCHOOL-->
+        <div
+          *ngIf=" student.class_cat_id  !== 5 && student.class_cat_id  !== 7 && student.class_cat_id  !== 9 && student.class_cat_id  !== 6 && student.class_cat_id  !== 8 && student.class_cat_id  !== 21  ">
+          <ion-row>
+            <ion-col col-12> Name: {{reportCards.student_name}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-6> Class: <small>{{reportCards.class_name}}</small></ion-col>
+            <ion-col col-6>Admission Number:<small> {{reportCards.admission_number}}</small></ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col col-6>Term: {{reportCards.term_name}} </ion-col>
+            <ion-col col-6>Year: {{reportCards.year}} </ion-col>
+          </ion-row>
+          <ion-row *ngFor="let p of positions">
+            <ion-col col-6>Position : <small></small>{{p.this_term_position.position}} /
+              {{p.this_term_position.position_out_of}}</ion-col>
+            <ion-col col-6 *ngIf="p.last_term_position !== null">Position Last
+              Term:<small>{{p.last_term_position.position}}
+                /
+                {{p.last_term_position.position_out_of}}</small></ion-col>
+          </ion-row>
+          <ion-row *ngFor="let ov of overall">
+            <ion-col col-6>Last Term Marks: <small>{{ov.last_term_marks_and_grade[0].overall_mark}}</small>
+            </ion-col>
+            <ion-col col-6>Current Term Marks: <small>{{ov.this_term_marks_and_grade[0].overall_mark}}</small></ion-col>
+          </ion-row>
+          <div class="table_wrapper">
+            <table border="1">
+              <!-- {{examTypes.length}} -->
+              <tr>
+                <td scope="col" width="7%" rowspan="2">SUBJECT </td>
+                <td scope="col" [attr.colspan]=colspan> MARKS </td>
+              </tr>
+              <tr>
+                <!-- <td width="7%"></td> -->
+                <td *ngFor="let e of exam_type;  let i = index" scope="col"
+                  style="text-align: center; font-size:12px; font-weight:bold">
+                  {{e}}
+              <tr>
+                <td scope="col"> Mark % </td>
+                <td scope="col"> Grade </td>
+                <td scope="col">Out Of</td>
+              </tr>
+              </td>
+              <td style="text-align: center; font-size: 12px; font-weight: bold;" scope="col">
+                Overall
+                <tr>
+                  <td scope="col"> Avg % </td>
+                  <td scope="col"> Grade </td>
+                </tr>
+              </td>
+              </tr>
+              <tbody *ngFor="let r of sub;  let i = index">
+                <tr style="text-align: center">
+                  <!-- <td style="text-align: start; font-size:12px; font-weight:bold" >
+                 {{r.subject_name}}
+                </td> -->
+                  <td style="text-align: start;  font-size:12px; font-weight:bold;" *ngIf="r.parent_subject_id === null"
+                    width="4%">
+                    {{r.subject_name}}
+                  </td>
+                  <td style="font-size:12px;  margin-left: 5px !important;" *ngIf="r.parent_subject_id !== null"
+                    width="4%">
+                    {{r.subject_name}}
+                  </td>
+                  <td *ngIf="cat1.length != 0" scope="col" style="text-align: center; font-size: 12px;">
+                <tr *ngFor="let ca of cat1" style="text-align: center;">
+                  <td *ngIf="r.subject_name === ca.subject_name" scope="col">
+                    <div *ngIf="ca.mark !== null">
+                      {{ca.mark}}
+                    </div>
+                  </td>
+                  <td scope="col" *ngIf="r.subject_name === ca.subject_name">
+                    <div *ngIf="ca.grade !== null">
+                      {{ca.grade}}
+                    </div>
+                  </td>
+                  <td scope="col" *ngIf="r.subject_name === ca.subject_name && ca.grade !== null">
+                    {{ca.out_of}}
+                  </td>
+                </tr>
+                </td>
+                <td style="font-size: 12px;" scope="col" *ngIf="exam_marks.length > 1">
+                  <tr *ngFor="let ca of cat2" style="text-align: center;">
+                    <td *ngIf="r.subject_name === ca.subject_name" scope="col">
+                      {{ca.mark}}
+                    </td>
+                    <td scope="col" *ngIf="r.subject_name === ca.subject_name">
+                      {{ca.grade}}
+                    </td>
+                    <td scope="col" *ngIf="r.subject_name === ca.subject_name">
+                      {{ca.out_of}}
+                    </td>
+                  </tr>
+                </td>
+                <td style="font-size: 12px;" scope="col" *ngIf="exam_marks.length > 2">
+                  <tr *ngFor="let ca of cat3" style="text-align: center;">
+                    <td *ngIf="r.subject_name === ca.subject_name" scope="col">
+                      {{ca.mark}}
+                    </td>
+                    <td scope="col" *ngIf="r.subject_name === ca.subject_name">
+                      {{ca.grade}}
+                    </td>
+                    <td scope="col" *ngIf="r.subject_name === ca.subject_name">
+                      {{ca.out_of}}
+                    </td>
+                  </tr>
+                </td>
+                <td style="font-size: 12px;" scope="col" *ngIf="exam_marks.length > 3">
+                  <tr *ngFor="let ca of cat4" style="text-align: center;">
+                    <td *ngIf="r.subject_name === ca.subject_name" scope="col">
+                      {{ca.mark}}
+                    </td>
+                    <td scope="col" *ngIf="r.subject_name === ca.subject_name">
+                      {{ca.grade}}
+                    </td>
+                    <td scope="col" *ngIf="r.subject_name === ca.subject_name">
+                      {{ca.out_of}}
+                    </td>
+                  </tr>
+                </td>
+                <td style="font-size: 12px;" scope="col" *ngIf="exam_marks.length > 4">
+                  <tr *ngFor="let ca of cat5" style="text-align: center;">
+                    <td *ngIf="r.subject_name === ca.subject_name" scope="col">
+                      {{ca.mark}}
+                    </td>
+                    <td scope="col" *ngIf="r.subject_name === ca.subject_name">
+                      {{ca.grade}}
+                    </td>
+                    <td scope="col" *ngIf="r.subject_name === ca.subject_name">
+                      {{ca.out_of}}
+                    </td>
+                  </tr>
+                </td>
+                <td style="font-size: 12px;" scope="col" *ngIf="exam_marks.length > 5">
+                  <tr *ngFor="let ca of cat6" style="text-align: center;">
+                    <td *ngIf="r.subject_name === ca.subject_name" scope="col">
+                      {{ca.mark}}
+                    </td>
+                    <td scope="col" *ngIf="r.subject_name === ca.subject_name">
+                      {{ca.grade}}
+                    </td>
+                    <td scope="col" *ngIf="r.subject_name === ca.subject_name">
+                      {{ca.out_of}}
+                    </td>
+                  </tr>
+                </td>
+                <td style="font-size: 12px;" scope="col" *ngIf="exam_marks.length > 6">
+                  <tr *ngFor="let ca of cat7" style="text-align: center;">
+                    <td *ngIf="r.subject_name === ca.subject_name" scope="col">
+                      {{ca.mark}}
+                    </td>
+
+                    <td scope="col" *ngIf="r.subject_name === ca.subject_name">
+                      {{ca.grade}}
+                    </td>
+                    <td scope="col" *ngIf="r.subject_name === ca.subject_name">
+                      {{ca.out_of}}
+                    </td>
+                  </tr>
+                </td>
+                <td scope="col">
+                  <tr *ngFor="let o of subjOvrl" style="text-align: center">
+                    <td scope="col" *ngIf="o.subject_id === r.subject_id">
+                      {{o.average}}%
+                    </td>
+                    <td scope="col" *ngIf="o.subject_id === r.subject_id">
+                      {{o.grade}}
+                    </td>
+                  </tr>
+                </td>
+                </tr>
+
+              </tbody>
+
+              <tfoot>
+                <tr>
+                  <td>TOTAL</td>
+                  <td *ngFor="let t of total;  let i = index" scope="col">
+                <tr style="text-align: center">
+                  <td scope="col" style="text-align: center" *ngIf="t.grade !== null">{{t.total}}</td>
+                  <td scope="col" style="text-align: center" *ngIf="t.grade !== null">{{t.grade}}</td>
+                  <td scope="col" style="text-align: center;" *ngIf="t.grade !== null">{{t.out_of}}</td>
+                </tr>
+                </td>
+                <td scope="col" style="text-align: center" *ngFor="let ovg of avg">
+                  <tr style="text-align: center">
+                    <td scope="col" style="text-align: center;" *ngIf="ovg.percentage !== null">
+                      {{ovg.percentage}} %
+                    </td>
+                    <td scope="col" style="text-align: center;" *ngIf="ovg.overall_grade !== null">
+                      {{ovg.overall_grade}}
+                    </td>
+                  </tr>
+
+
+                </td>
+                </tr>
+
+              </tfoot>
+            </table>
+          </div>
+          <h3 style="font-size: 12px;">REMARKS</h3>
+          <table width="100%" border="1">
+            <tr>
+              <td width="50%" style="text-align:inherit; margin:1px;;"><b>Class Teacher Name:</b>
+                {{comments.teacher_name}}
+              </td>
+              <td width="50%" style="text-align:inherit; margin:1px;"><b>Comments:</b> {{comments.teacher_comments}}
+              </td>
+            </tr>
+            <tr>
+              <td width="50%" style="text-align:start; margin:1px;;"> <b>Head Teacher Name:</b>
+                {{comments.head_teacher_name}}
+
+              </td>
+              <td width="50%" style="text-align:inherit; margin:1px;"><b>Comments:</b> {{comments.principle_comments}}
+              </td>
+
+            </tr>
+            <tr>
+              <td width="100%">Closing Date: <br>{{this.formatDate(closing_date)}}</td>
+              <td width="100%" *ngIf="opening_date">Next Terms Begins: <br>{{this.formatDate(opening_date)}}</td>
+            </tr>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</ion-content>

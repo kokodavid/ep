@@ -1,0 +1,67 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-button color="light" (click)="dismissLogin()">Close</ion-button>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content class="ion-no-padding">
+  <div class="main">
+    <div style="height: 14%;">
+    </div>
+    <div style="height:7%;">
+      <div class="ion-text-center logo">
+        <img src="../../../assets/logo/logo.png" />
+      </div>
+    </div>
+    <div style="height: 27%;">
+    </div>
+    <div style="margin-left: 8px; margin-right: 8px; background-color: white; border-radius: 5px;">
+      <div style="margin-top: 20px; margin-bottom: 20px;">
+        <form #form="ngForm" (ngSubmit)="login(form)" method="post">
+          <ion-item style="margin-bottom: 5px;margin-top: 10px;">
+            <ion-icon name="person" slot="start"></ion-icon>
+            <ion-input ngModel name="username" type="text" placeholder="Username" value={{user}}></ion-input>
+          </ion-item>
+          <ion-item style="margin-bottom: 5px;margin-top: 10px;">
+            <div tabindex="0"></div>
+            <ion-icon name="lock-closed" slot="start"></ion-icon>
+            <ion-input ngModel type={{type}} name="password" placeholder="Password" value={{pass}}></ion-input>
+            <ion-icon ion-button *ngIf="showPasswordText == 1" name="eye" (click)="managePassword()" slot="end">
+            </ion-icon>
+            <ion-icon ion-button *ngIf="showPasswordText == 0" name="eye-off" (click)="managePassword()" slot="end">
+            </ion-icon>
+          </ion-item>
+          <ion-item lines="none" style="font-size: 14px; font-weight: 500; box-shadow: none; ">
+            <div tabindex="0"></div>
+            <ion-item lines="none" style="font-size: 14px; font-weight: 500; box-shadow: none; ">
+              <input *ngIf="checked == 1" type="checkbox" style="width:20px;height:20px; " ngModel name='remember'
+                (click)="check()" checked="false" slot="start">
+              <input *ngIf="checked == 0" type="checkbox" stylkede="width:20px;height:20px;" name='remember'
+                (click)="check()" checked slot="start">&nbsp;Remember Me
+            </ion-item>
+            <div (click)="forgot()" style="color: rgb(35, 35, 218); text-align: center; " slot="end">Forgot Password?
+            </div>
+          </ion-item>
+          <ion-item lines="none" style="font-size: 14px; font-weight: 500; box-shadow: none;">
+            <div tabindex="0"></div>
+            <ion-button type="submit" size="large"
+              style="background-color: #397C49; border-radius: 4px; font-weight: 500; font-size: 16px; margin-left:auto; margin-right:auto; margin-bottom: 12px; width: 100%;"
+              expand="block">LOGIN</ion-button>
+
+          </ion-item>
+          <ion-item lines="none" (click)="phone()">
+            <div tabindex="0"></div> 
+            <ion-text ion-button
+              style="color: rgb(35, 35, 218); border-bottom: 1px; text-align: center; font-size: 16px; font-weight: 500; margin-left:auto; margin-right:auto; margin-bottom: 20px;">
+              Or register new Account <ion-icon style="font-size: 14px;margin-top: 5px; color: rgb(35, 35, 218);"
+                name="arrow-forward"></ion-icon>
+            </ion-text> 
+
+          </ion-item>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

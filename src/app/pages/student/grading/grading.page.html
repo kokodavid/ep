@@ -1,0 +1,190 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" style="font-size: 14px;">
+      <ion-back-button text="" icon="chevron-back"></ion-back-button>EXAMS & GRADES
+    </ion-buttons>
+    <!-- <ion-title style="font-size:14px;">EXAMS & GRADES</ion-title> -->
+  </ion-toolbar>
+  <ion-item>
+    <ion-avatar slot="start" *ngIf="assets !==1">
+      <img src={{assets}}>
+    </ion-avatar>
+    <ion-avatar slot="start" *ngIf="assets === 1">
+      <ion-icon size="32" style="font-size: 2em" name="happy-outline"></ion-icon>
+    </ion-avatar>
+    <ion-label style="text-transform: uppercase;">{{student.first_name}} {{student.middle_name}} {{student.last_name}}
+    </ion-label>
+  </ion-item>
+  <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segment" value="details" mode="md">
+    <ion-segment-button value="reports">
+      <ion-label>Report Cards</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="exam">
+      <ion-label>Exam Marks</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="Assessment">
+      <ion-label>Assessment</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+<ion-content>
+  <div [ngSwitch]="segment">
+    <div *ngSwitchCase="'reports'">
+
+      <ion-list *ngIf="report_cards.length === 0 && fake === 1">
+        <br>
+        <ion-spinner name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%;"
+          color="primary"></ion-spinner>
+      </ion-list>
+      <ion-list *ngIf="report_cards.length === 0 && fake === 0">
+        <ion-item>No report cards for this student</ion-item>
+      </ion-list>
+      <ion-list *ngIf="report_cards.length>0">
+        <ion-list>
+          <ion-list-header>
+            <ion-button size="small" style="color: black;" (click)="hide()">Filter <ion-icon name="chevron-down">
+              </ion-icon>
+            </ion-button>
+          </ion-list-header>
+
+          <div id="hid" hidden style="padding-left: 8px; padding-right: 8px;">
+            <ion-item>
+              <ion-label>Class</ion-label>
+              <ion-select id="class" cancelText="Cancel" okText="Ok" (ionChange)="classChange($event)">
+                <ion-select-option value="all">All</ion-select-option>
+                <div *ngFor="let c of class_history">
+                  <ion-select-option value="{{c}}">{{c}}</ion-select-option>
+                </div>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label>Term</ion-label>
+              <ion-select cancelText="Cancel" okText="Ok" (ionChange)="termChange($event)">
+                <div *ngFor="let t of terms">
+                  <ion-select-option value="{{t.term_id}}">{{t.term_name}}</ion-select-option>
+                </div>
+              </ion-select>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-button slot="end" color="dark" (click)="filter()">Filter</ion-button>
+            </ion-item>
+          </div>
+        </ion-list>
+        <ion-item *ngFor="let r of report_cards; let i = index">
+          <ion-grid>
+            <ion-row (click)="reportData(r)">
+              <ion-col style="text-align: left;">{{r.term_name}} </ion-col>
+              <ion-col (click)="reportData(r)" col-5 style="text-align: right;"><strong>Teacher: </strong>
+                {{r.report_card_comments.teacher_name}}</ion-col>
+              <ion-col style="text-align: center;">{{r.class_name}}</ion-col>
+            </ion-row>
+            <ion-row></ion-row>
+            <ion-row>
+              <ion-col (click)="reportData(r)" col-6 style="text-align: left;"><strong>
+                  <ion-icon name="calendar"> </ion-icon>
+                </strong>
+                : {{this.format(r.closing_date)}}
+              </ion-col>
+              <ion-col></ion-col>
+              <ion-col col-6 style="text-align: center;" (click)="prepare(r.term_id)">
+                <img src="assets/img/download.png" width="18px" height="18px">
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-list>
+    </div>
+  
+    <div *ngSwitchCase="'exam'">
+      <div style="margin: 10px;">
+        <strong style="color: green;">For classes 4 & 8, select term 3, all other classes - term 2</strong>
+      </div>
+      <ion-list-header>
+        <ion-button size="small" style="color: black;" (click)="hide()">Filter <ion-icon name="chevron-down">
+          </ion-icon>
+        </ion-button>
+      </ion-list-header>
+      <div id="hid" hidden style="padding-left: 8px; padding-right: 8px;">
+        <ion-item>
+          <ion-label>Class</ion-label>
+          <ion-select id="class" cancelText="Cancel" okText="Ok" (ionChange)="classExamChange($event)">
+            <div *ngFor="let c of class_history">
+              <ion-select-option value="{{c}}">{{c}}</ion-select-option>
+            </div>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Term</ion-label>
+          <ion-select cancelText="Cancel" okText="Ok" (ionChange)="termExamChange($event)">
+            <div *ngFor="let t of terms">
+              <ion-select-option value="{{t.term_name}}">{{t.term_name}}</ion-select-option>
+            </div>
+          </ion-select>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-button slot="end" color="dark" (click)="filterExam()">Filter</ion-button>
+        </ion-item>
+      </div>
+      <div *ngIf="examdata.length === 0 && fake === 1">
+        <br>
+        <ion-spinner name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%; "
+          color="primary"></ion-spinner>
+      </div>
+      <ion-item *ngIf="examdata.length === 0 && fake === 0 ">
+        No exam marks for this student.
+      </ion-item>
+      <div *ngIf="examdata.length > 0 ">
+
+        <div *ngFor="let r of examdata;  let i = index">
+
+          <ion-item style="margin: 0px !important;" *ngIf="r.ty !== undefined">
+            <ion-col col-7 style=" color: green; font-size: 12px; font-weight:500;"> {{exam_mark_header}}
+            </ion-col>
+            <ion-col *ngIf = "i != 0" col-3 style="text-align: center !important;">Change</ion-col>
+            <ion-col col-2 style="text-align: right; color: black; font-size: 12px;font-weight: 500">{{r.ty}}</ion-col>
+          </ion-item>
+          <ion-item *ngFor="let e of r.marks;  let j = index">
+            <ion-col col-7 *ngIf="e.parent_subject_name === null"
+              style="margin-left: 0px;font-size: 12px;font-weight: 500; margin:0px !important">{{e.subject_name}}
+            </ion-col>            
+            <ion-col col-7 *ngIf="e.parent_subject_name !== null"
+              style="margin-left: 20px !important;font-size: 11px;font-weight: 400;">{{e.subject_name}}</ion-col>
+              <ion-col *ngIf = "i == 0;else notEq" col-3 style="text-align: center !important; font-size: 12;"></ion-col>
+              <ng-template #notEq><ion-col col-3 style="text-align: center !important; font-size: 12;">{{r.change[j]}}<ion-icon *ngIf="r.change[j] < 0" style="color: red;" name="arrow-down-circle-outline"></ion-icon><ion-icon *ngIf="r.change[j] > 0" style="color: green;" name="arrow-up-circle-outline"></ion-icon></ion-col></ng-template>
+              <ion-col col-2 style="text-align: right !important; color: black; margin:0px !important">
+              <strong>{{e.mark}}</strong>/{{e.grade_weight}}
+            </ion-col>
+          </ion-item>
+        </div>
+      </div>
+    </div>
+    <div *ngSwitchCase="'Assessment'" class="ion-no-padding">
+      <div *ngIf="assessments.length === 0 && fake === 1">
+        <br>
+        <ion-spinner name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%;"
+          color="primary">
+        </ion-spinner>  
+      </div>
+      <ion-item *ngIf="assessments.length === 0 && fake === 0 ">
+        No assements for this student.
+      </ion-item>
+      <div *ngIf="assessments.length > 0 ">
+        <ion-item *ngFor="let r of assessments;  let i = index">
+          <div (click)="download(r.file_name, url+r.file_name)" style="width: 100%;">
+            <ion-col col-10 style=" color: black; font-size: 12px; font-weight:500;">{{r.term_name}} {{r.class_name}}
+              &nbsp;&nbsp;&nbsp;</ion-col>
+            <ion-col col-2
+              style="color: blue; font-size: 14px; font-weight: 500;  text-align: end !important; position: absolute; right:8px;">
+              &nbsp;&nbsp;Download</ion-col>
+          </div>
+        </ion-item>
+      </div>
+    </div>
+  </div>
+  <ion-fab *ngIf="feedback === 'true'" vertical="bottom" (click)="addfeed()" horizontal="end" slot="fixed">
+    <ion-fab-button color="tertiary">
+      <ion-icon name="chatbox-ellipses"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

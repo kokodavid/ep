@@ -1,0 +1,105 @@
+ion-segment{
+    //color:white;
+    ion-label{
+        color:white;
+        font-size: 12px;
+    }
+}
+
+ion-icon{
+    font-size: 24px;
+    font-weight: 600;
+}
+ion-card-header{
+    color:black;
+    font-size: 16px;
+    font-weight: 700;
+    background-color: #ddd;
+}
+ion-card-content{
+    color:black;
+    font-size: 13px;
+
+}
+ion-col{
+    margin-top: -2px;
+    color:black;
+    font-size: 12px;
+    border-left: 0px;
+    font-weight: 450;
+}
+ion-row{
+    margin-top: -5px;
+}
+.info{
+    color:black;
+    font-size: 14px;
+    font-weight: 500;
+    font-weight: 500;
+}
+.credit{
+    align-items: center;
+    background-color: rgb(151, 187, 167);
+    color:rgb(70, 161, 98);
+    font-weight: 500;
+    text-align: center;
+    font-size: 14px;
+
+}
+
+.balance{
+    text-align: center;
+    //align-items: center;
+    background-color: rgb(204, 175, 175);
+    color:rgb(126, 70, 70);
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.areas{
+    text-align: center;
+    //align-items: center;
+    background-color:rgb(204, 175, 175);
+    color:rgb(126, 70, 70);
+    font-size: 14px;
+}
+
+ion-item{
+    display: inline-block;
+    width:100%;
+    margin-bottom: -2px;
+    font-size: 13px;
+    color:black;
+    font-weight: 450;
+}
+.bal{
+    text-align: right;
+    color: rgb(126, 70, 70);
+    //align-items: flex-end;
+    font-size: 16px;
+    font-weight: 600;
+    
+}
+.center{
+    text-align: right;
+    // color: rgb(126, 70, 70);
+    // //align-items: flex-end;
+    // font-size: 16px;
+    // font-weight: 600;
+    
+}
+
+.paid{
+    color: #009e0f;
+    //align-items: flex-end;
+    font-size: 16px;
+    font-weight: 600;
+    
+}
+.summary{
+align-items: center;
+background-color:#eee;
+margin-bottom: 10px;
+//margin: 10px;
+
+}

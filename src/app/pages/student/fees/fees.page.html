@@ -1,0 +1,191 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start" style="font-size: 14px;">
+          <ion-back-button text="" icon="chevron-back"></ion-back-button>PAYMENTS & INVOICES
+        </ion-buttons>
+    <!-- <ion-title style="font-size:14px;">PAYMENTS & INVOICES</ion-title> -->
+  </ion-toolbar>
+  <ion-item>
+      <ion-avatar slot="start" *ngIf="assets !==1">
+          <img src={{assets}}>
+        </ion-avatar>
+        <ion-avatar slot="start" *ngIf="assets === 1">
+            <ion-icon   size="32" style="font-size: 2em"  name="happy-outline"></ion-icon>
+          </ion-avatar>
+          <ion-label style="text-transform: uppercase;">{{student.first_name}} {{student.middle_name}} {{student.last_name}}</ion-label>
+    </ion-item>
+  <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segment"  value="details"  mode="md">
+      <ion-segment-button value="summary">
+        <ion-label>Summary</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="invoices">
+        <ion-label>Invoices</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="payments">
+      <ion-label>Payments</ion-label>
+      </ion-segment-button>
+        <ion-segment-button value="feeItems">
+          <ion-label>Fee Items</ion-label>
+        </ion-segment-button>
+    </ion-segment>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+  <div style="height: 5px;"></div>
+
+    <div [ngSwitch]="segment" >
+     
+        <div *ngSwitchCase="'summary'" >
+         
+          <ion-grid>
+            <ion-row class="summary">
+              <ion-col col-4 class="credit" style="border: 2px white solid !important;">
+                Credit<br>
+                {{this.fn(balance.total_credit)}}
+              </ion-col>
+                <ion-col col-4 class="balance" style="border: 2px white solid !important;">
+                    Balance<br>
+                    {{this.fn(balance.balance)}}
+          </ion-col>
+            </ion-row>
+          </ion-grid>
+          <ion-list *ngIf="summary.length === 0 && fake === 1">
+              <br>
+              <ion-spinner   name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%;" color="primary"></ion-spinner>
+              </ion-list>
+          <ion-item *ngIf="summary.length == 0 && fake === 0 ">
+              No fee summaries.
+        </ion-item>
+        <ion-item *ngFor="let item of summary;  let i = index">
+            <ion-grid>
+                <ion-row>
+                  <ion-col col-6>
+                    <strong>{{item.fee_item}}</strong>
+                  </ion-col>
+                  <ion-col col-6 class="bal" >
+                    <strong>{{this.fn(item.balance)}} {{item.currency}}</strong>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                <ion-col col-6>
+                    <small>Opening : {{item.total_due}}</small>
+                  </ion-col>
+                  <ion-col col-6 class="center">
+                      <small>Paid: {{this.fn(item.total_paid)}} {{item.currency}}</small>
+                    </ion-col>
+                </ion-row>
+              </ion-grid>
+        </ion-item>
+        </div>
+
+          <div *ngSwitchCase="'invoices'" class="ion-no-padding"> 
+              <ion-list *ngIf="invoices.length === 0 && fake === 1">
+                  <br>
+                  <ion-spinner   name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%; " color="primary"></ion-spinner>
+                  </ion-list>
+              <ion-item *ngIf="invoices.length == 0 && fake === 0 ">
+                  No invoices.
+            </ion-item>
+            <ion-item *ngFor="let item of invoices;  let i = index">
+                <ion-grid>
+                    <ion-row>
+                      <ion-col col-6 item-left>
+                        <strong> INV#{{item.inv_id}}</strong>
+                      </ion-col>
+                      <ion-col col-6  *ngIf="item.balance < 0" class="bal">
+                        <strong>{{this.fn(item.balance)}} {{item.currency}}</strong>
+                        </ion-col>
+                        <ion-col col-6 *ngIf="item.balance == 0 " class="paid center">
+                            {{this.fn(item.balance)}} {{item.currency}}
+                         </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col col-6>
+                            <small>Inv Date: {{this.formatDate(item.inv_date)}}</small>
+                        </ion-col>
+                        <ion-col col-6 class="center">
+                            <small>Due Date: {{this.formatDate(item.due_date)}}</small>
+                          </ion-col>
+                      </ion-row>
+                    <ion-row>
+                    <ion-col col-6>
+                        <small>Inv Total:  {{item.total_due}}</small>
+                      </ion-col>
+                      <ion-col col-6 class="center">
+                          <small>Amt Paid: {{this.fn(item.total_paid)}} {{item.currency}}</small>
+                        </ion-col>
+                    </ion-row>
+                  </ion-grid>
+            </ion-item>
+           
+          </div> 
+
+          <div *ngSwitchCase="'payments'" class="ion-no-padding">
+              <ion-list *ngIf="payments.length === 0 && fake === 1">
+                  <br>
+                  <ion-spinner   name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%;" color="primary"></ion-spinner>
+                </ion-list>
+              <ion-item *ngIf="payments.length == 0 && fake === 0 ">
+                  No payments records.
+            </ion-item>
+            <ion-item *ngFor="let item of payments;  let i = index">
+                <ion-grid>
+                    <ion-row>
+                      <ion-col col-6>
+                        <strong>Receipt No#{{item.payment_id}}</strong>
+                      </ion-col>
+                      <ion-col col-6 class="center">
+                          <strong>{{this.fn(item.amount)}} {{item.currency}}</strong>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col col-6>
+                            <strong>Received: {{this.formatDate(item.payment_date)}}</strong>
+                        </ion-col>
+                        <ion-col col-6 class="center">
+                            <strong> {{item.payment_method}} </strong>
+                          </ion-col>
+                      </ion-row>
+                    <ion-row>
+                    <ion-col col-12>
+                        <small>Applied To:  {{item.applied_to}}</small>
+                      </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col col-12>
+                            <small> Applied Unapplied:  {{this.fn(item.unapplied_amount)}}</small>
+                          </ion-col>
+                        </ion-row>
+                  </ion-grid>
+            </ion-item>
+                
+        </div>
+          <div *ngSwitchCase="'feeItems'" class="ion-no-padding">
+              <ion-list *ngIf="feeitems.length === 0 && fake === 1">
+                  <br>
+                  <ion-spinner   name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%;" color="primary"></ion-spinner>
+                  </ion-list>
+              <ion-item *ngIf="feeitems.length == 0 &&  fake === 0 ">
+                  No fee items.
+            </ion-item>
+            <ion-item *ngFor="let item of feeitems;  let i = index">
+                <ion-grid>
+                    <ion-row>
+                      <ion-col col-6>
+                        {{item.fee_item}}
+                      </ion-col>
+                      <ion-col col-6 class="center">
+                          {{this.fn(item.amount)}} {{item.currency}}/{{item.frequency}}
+                        </ion-col>
+                    </ion-row>
+                  </ion-grid>
+            </ion-item>
+           </div>
+           
+        </div>
+        <ion-fab *ngIf="feedback === 'true'" vertical="bottom" (click)="addfeed()" horizontal="end" slot="fixed" >
+          <ion-fab-button  color="tertiary">
+              <ion-icon name="chatbox-ellipses"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+</ion-content>

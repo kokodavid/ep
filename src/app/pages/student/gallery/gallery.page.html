@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" style="font-size: 14px;">
+      <ion-back-button text="" icon="chevron-back"></ion-back-button>GALLERY
+    </ion-buttons>
+    <!-- <ion-title style="font-size:14px;">GALLERY</ion-title> -->
+  </ion-toolbar>
+  <ion-item lines="none">
+    <ion-avatar slot="start" *ngIf="assets !==1">
+      <img src={{assets}}>
+    </ion-avatar>
+    <ion-avatar slot="start" *ngIf="assets === 1">
+      <ion-icon size="32" style="font-size: 2em" name="happy-outline"></ion-icon>
+    </ion-avatar>
+    <ion-label style="text-transform: uppercase;">{{student.first_name}} {{student.middle_name}} {{student.last_name}}
+    </ion-label>
+  </ion-item>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+  <ion-list *ngIf="galleries.length === 0 && fake === 1">
+    <br>
+    <ion-spinner name="lines-small" style="text-align: center; margin-left: 50%; margin-right: 50%;" color="primary">
+    </ion-spinner>
+  </ion-list>
+  <ion-card *ngIf="galleries.length == 0 && fake === 0 ">
+    <ion-item>
+      No gallery.
+    </ion-item>
+  </ion-card>
+  <div *ngFor="let r of galleries;  let i = index">
+    <ion-card>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6 style="color: #009e0f; font-weight: bold;text-transform: uppercase;font-size: 12px;">
+            <!-- <div [innerHTML]="item.subject" ></div>  -->
+            <ion-icon ios="ios-albums" md="md-albums" style="color:black"></ion-icon> {{r.subject}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-12>
+              <div [innerHTML]="r.message"></div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>
+            <small>Created On: {{this.formatDate(r.creation_date)}}</small>
+          </ion-col>
+          <ion-col col-6>
+            <small>By: {{r.posted_by}}</small>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+  </div>
+  <ion-fab *ngIf="feedback === 'true'" vertical="bottom" (click)="addfeed()" horizontal="end" slot="fixed">
+    <ion-fab-button color="tertiary">
+      <ion-icon name="chatbox-ellipses"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

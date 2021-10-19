@@ -1,0 +1,39 @@
+ion-segment{
+    text-transform:none ;
+    //color:white;
+    ion-label{
+        color:white;
+        font-size: 12px;
+    }
+}
+ion-content{
+    font-size: 12px;
+    ion-col{
+        color:black;
+        font-size: 12px;
+    }
+    .info{
+        color:black;
+        font-size: 12px;
+    }
+    ion-list{
+        ::-webkit-scrollbar{
+            display: inline;
+        }
+    }
+
+}
+// .loader{
+// 	background: #f20d49 !important;
+// 	border-radius:100px;
+// 	height:20px;
+// 	p{
+// 		text-align:center;
+// 		color:white !important;
+// 		text-align:center;
+// 	}
+// }
+
+// ion-card-header{
+    
+// }
